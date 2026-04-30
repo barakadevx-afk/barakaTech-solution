@@ -69,23 +69,71 @@ function Hero() {
               <span className="text-red-600 dark:text-red-400">Dreamer</span>
             </h1>
 
-            {/* Subtitle */}
-            <p className="text-lg sm:text-xl lg:text-2xl text-gray-600 dark:text-gray-300 mb-4 font-light">
-              I build <span className="text-red-600 dark:text-red-400 font-medium">awesome</span> things with code
-            </p>
-
-            {/* Description */}
-            <div className="max-w-xl text-gray-600 dark:text-gray-400 text-base sm:text-lg mb-6 sm:mb-8 leading-relaxed">
-              <p className="mb-3">
-                Hey! I'm just a guy who loves turning ideas into reality. Whether it's 
-                <span className="text-red-600 dark:text-red-400 font-medium">full-stack apps</span>,{' '}
-                <span className="text-red-600 dark:text-red-400 font-medium">AI projects</span>, or{' '}
-                <span className="text-red-600 dark:text-red-400 font-medium">games</span> — 
-                I'm always tinkering with something cool.
-              </p>
-              <p className="text-red-600 dark:text-red-400 font-medium">
-                Currently learning, always building
-              </p>
+            {/* Unified Code Form */}
+            <div className="w-full max-w-lg mb-6 sm:mb-8">
+              <div className="bg-gray-900 rounded-lg overflow-hidden border border-gray-800">
+                {/* Header */}
+                <div className="flex items-center gap-2 px-3 py-2 bg-gray-800 border-b border-gray-700">
+                  <div className="flex gap-1.5">
+                    <div className="w-2.5 h-2.5 rounded-full bg-red-500" />
+                    <div className="w-2.5 h-2.5 rounded-full bg-yellow-500" />
+                    <div className="w-2.5 h-2.5 rounded-full bg-green-500" />
+                  </div>
+                  <span className="ml-3 text-xs text-gray-400 font-mono">Baraka.js</span>
+                </div>
+                {/* Code Content */}
+                <div className="p-4 font-mono text-sm leading-relaxed">
+                  <code className="text-gray-300">
+                    <span className="text-purple-400">const</span>{' '}
+                    <span className="text-blue-400">developer</span>{' '}
+                    <span className="text-gray-500">=</span>{' '}
+                    <span className="text-yellow-400">{'{'}</span>{'\n'}
+                    {'  '}<span className="text-red-400">name</span>
+                    <span className="text-gray-500">:</span>{' '}
+                    <span className="text-green-400">'Baraka'</span>
+                    <span className="text-gray-500">,</span>{'\n'}
+                    {'  '}<span className="text-red-400">title</span>
+                    <span className="text-gray-500">:</span>{' '}
+                    <span className="text-green-400">'Full Stack Dev'</span>
+                    <span className="text-gray-500">,</span>{'\n'}
+                    {'  '}<span className="text-red-400">skills</span>
+                    <span className="text-gray-500">: [</span>
+                    <span className="text-green-400">'React'</span>
+                    <span className="text-gray-500">,</span>{'\n'}
+                    {'          '}<span className="text-green-400">'Node.js'</span>
+                    <span className="text-gray-500">,</span>{'\n'}
+                    {'          '}<span className="text-green-400">'TypeScript'</span>
+                    <span className="text-gray-500">],</span>{'\n'}
+                    {'  '}<span className="text-red-400">passion</span>
+                    <span className="text-gray-500">:</span>{' '}
+                    <span className="text-green-400">'Building things'</span>
+                    <span className="text-gray-500">,</span>{'\n'}
+                    {'  '}<span className="text-red-400">mission</span>
+                    <span className="text-gray-500">:</span>{' '}
+                    <span className="text-green-400">'build awesome things'</span>
+                    <span className="text-gray-500">,</span>{'\n'}
+                    {'  '}<span className="text-red-400">loves</span>
+                    <span className="text-gray-500">:</span>{' '}
+                    <span className="text-green-400">'turning ideas → reality'</span>
+                    <span className="text-gray-500">,</span>{'\n'}
+                    {'  '}<span className="text-red-400">motto</span>
+                    <span className="text-gray-500">:</span>{' '}
+                    <span className="text-green-400">'Currently learning'</span>
+                    <span className="text-gray-500">,</span>{'\n'}
+                    {'  '}<span className="text-red-400">available</span>
+                    <span className="text-gray-500">:</span>{' '}
+                    <span className="text-orange-400">true</span>{'\n'}
+                    <span className="text-yellow-400">{'}'}</span>
+                    <span className="text-gray-500">;</span>{'\n'}
+                    {'\n'}
+                    <span className="text-blue-400">developer</span>
+                    <span className="text-gray-500">.</span>
+                    <span className="text-yellow-300">sayHi</span>
+                    <span className="text-gray-500">();</span>{' '}
+                    <span className="text-gray-600"></span>
+                  </code>
+                </div>
+              </div>
             </div>
 
             {/* CTA Buttons */}

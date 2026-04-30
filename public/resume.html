@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Baraka - Resume</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #fff;
+            padding: 40px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .header {
+            text-align: center;
+            border-bottom: 3px solid #6366f1;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+        .header h1 {
+            font-size: 2.5em;
+            color: #1f2937;
+            margin-bottom: 10px;
+        }
+        .header .title {
+            font-size: 1.2em;
+            color: #6366f1;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        .contact-info {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+            font-size: 0.9em;
+            color: #6b7280;
+        }
+        .section {
+            margin-bottom: 25px;
+        }
+        .section-title {
+            font-size: 1.3em;
+            color: #1f2937;
+            border-left: 4px solid #6366f1;
+            padding-left: 10px;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .item {
+            margin-bottom: 20px;
+        }
+        .item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 5px;
+        }
+        .item-title {
+            font-weight: 700;
+            color: #1f2937;
+            font-size: 1.1em;
+        }
+        .item-subtitle {
+            color: #6366f1;
+            font-weight: 600;
+        }
+        .item-date {
+            color: #6b7280;
+            font-size: 0.9em;
+        }
+        .item-description {
+            color: #4b5563;
+            margin-top: 5px;
+        }
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+        .skill-category {
+            margin-bottom: 10px;
+        }
+        .skill-category h4 {
+            color: #1f2937;
+            margin-bottom: 5px;
+            font-size: 0.95em;
+        }
+        .skill-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .skill-tag {
+            background: #f3f4f6;
+            padding: 3px 10px;
+            border-radius: 15px;
+            font-size: 0.85em;
+            color: #4b5563;
+        }
+        ul {
+            list-style-position: inside;
+            margin-left: 10px;
+        }
+        li {
+            margin-bottom: 5px;
+            color: #4b5563;
+        }
+        .summary {
+            text-align: justify;
+            color: #4b5563;
+        }
+        @media print {
+            body {
+                padding: 20px;
+            }
+            .no-print {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Baraka</h1>
+        <div class="title">Full-Stack Developer | AI Engineer | Game Developer | Cybersecurity Expert</div>
+        <div class="contact-info">
+            <span>barakadevx@gmail.com</span>
+            <span>0792828727</span>
+            <span>Rwanda</span>
+            <span>github.com/barakadevx-afk</span>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2 class="section-title">Professional Summary</h2>
+        <p class="summary">
+            Passionate full-stack developer and AI engineer with expertise in building intelligent systems, 
+            web applications, and games. Self-taught developer with a strong foundation in cybersecurity 
+            and a portfolio of 50+ projects. Currently completing secondary education (2023-2027) while 
+            working on innovative tech solutions at the intersection of software engineering, AI, and 
+            interactive entertainment.
+        </p>
+    </div>
+
+    <div class="section">
+        <h2 class="section-title">Experience</h2>
+        <div class="item">
+            <div class="item-header">
+                <div>
+                    <div class="item-title">Full-Stack Developer</div>
+                    <div class="item-subtitle">Baraka Tech Solution</div>
+                </div>
+                <div class="item-date">2023 - Present</div>
+            </div>
+            <div class="item-description">
+                Building AI-powered applications, web platforms, and mobile solutions. 
+                Managing end-to-end development from concept to deployment.
+            </div>
+            <ul>
+                <li>Developed 50+ projects using React, Node.js, and Python</li>
+                <li>Implemented AI/ML solutions for automation and intelligent systems</li>
+                <li>Built secure payment integration systems with MTN/Airtel</li>
+                <li>Created custom game engines and RPG systems with AI behavior</li>
+                <li>Designed and deployed full-stack applications with Supabase</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2 class="section-title">Education</h2>
+        <div class="item">
+            <div class="item-header">
+                <div>
+                    <div class="item-title">Secondary Education</div>
+                    <div class="item-subtitle">Rwanda Secondary School</div>
+                </div>
+                <div class="item-date">2023 - 2027</div>
+            </div>
+            <div class="item-description">
+                Currently pursuing secondary education with focus on technology and computer science.
+            </div>
+            <ul>
+                <li>Self-taught full-stack development through online resources and projects</li>
+                <li>Completed 50+ coding projects building real-world applications</li>
+                <li>Built AI-powered applications using TensorFlow and OpenAI API</li>
+                <li>Developed cybersecurity expertise with Kali Linux and penetration testing</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2 class="section-title">Technical Skills</h2>
+        <div class="skills-grid">
+            <div class="skill-category">
+                <h4>Frontend</h4>
+                <div class="skill-list">
+                    <span class="skill-tag">React</span>
+                    <span class="skill-tag">JavaScript</span>
+                    <span class="skill-tag">TypeScript</span>
+                    <span class="skill-tag">HTML5</span>
+                    <span class="skill-tag">CSS3</span>
+                    <span class="skill-tag">Tailwind CSS</span>
+                    <span class="skill-tag">Framer Motion</span>
+                </div>
+            </div>
+            <div class="skill-category">
+                <h4>Backend</h4>
+                <div class="skill-list">
+                    <span class="skill-tag">Node.js</span>
+                    <span class="skill-tag">Python</span>
+                    <span class="skill-tag">Express</span>
+                    <span class="skill-tag">FastAPI</span>
+                    <span class="skill-tag">REST APIs</span>
+                </div>
+            </div>
+            <div class="skill-category">
+                <h4>Database</h4>
+                <div class="skill-list">
+                    <span class="skill-tag">PostgreSQL</span>
+                    <span class="skill-tag">Supabase</span>
+                    <span class="skill-tag">MongoDB</span>
+                    <span class="skill-tag">Redis</span>
+                </div>
+            </div>
+            <div class="skill-category">
+                <h4>AI/ML</h4>
+                <div class="skill-list">
+                    <span class="skill-tag">TensorFlow</span>
+                    <span class="skill-tag">OpenAI API</span>
+                    <span class="skill-tag">LangChain</span>
+                    <span class="skill-tag">Computer Vision</span>
+                </div>
+            </div>
+            <div class="skill-category">
+                <h4>Security</h4>
+                <div class="skill-list">
+                    <span class="skill-tag">Kali Linux</span>
+                    <span class="skill-tag">Tor Browser</span>
+                    <span class="skill-tag">Penetration Testing</span>
+                    <span class="skill-tag">Ethical Hacking</span>
+                </div>
+            </div>
+            <div class="skill-category">
+                <h4>Game Dev</h4>
+                <div class="skill-list">
+                    <span class="skill-tag">Unity</span>
+                    <span class="skill-tag">Unreal Engine</span>
+                    <span class="skill-tag">C#</span>
+                    <span class="skill-tag">C++</span>
+                    <span class="skill-tag">Game AI</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2 class="section-title">Projects</h2>
+        <ul>
+            <li><strong>AI-Powered Portfolio:</strong> React + Supabase portfolio with AI chatbot integration</li>
+            <li><strong>RPG Game Engine:</strong> Unity-based RPG with AI-driven NPC behavior systems</li>
+            <li><strong>Payment Integration:</strong> MTN/Airtel mobile money integration with PawaPay API</li>
+            <li><strong>Cybersecurity Toolkit:</strong> Python-based penetration testing automation tools</li>
+            <li><strong>E-Learning Platform:</strong> Full-stack educational platform with video streaming</li>
+            <li><strong>AI Content Generator:</strong> Automated content creation using GPT and DALL-E</li>
+            <li><strong>Blockchain Wallet:</strong> Cryptocurrency wallet with secure transaction handling</li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2 class="section-title">Certifications & Achievements</h2>
+        <ul>
+            <li>AI & Machine Learning - Self-Taught (2024)</li>
+            <li>Cybersecurity Fundamentals - Self-Taught (2024)</li>
+            <li>Full-Stack Development - Portfolio Projects (2023-2024)</li>
+            <li>Game Development - Unity/Unreal Projects (2024)</li>
+            <li>50+ Projects Completed - Various Technologies</li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2 class="section-title">Languages</h2>
+        <ul>
+            <li>English (Professional)</li>
+            <li>Kinyarwanda (Native)</li>
+            <li>French (Basic)</li>
+        </ul>
+    </div>
+
+    <script>
+        // Auto-print when opened
+        window.onload = function() {
+            setTimeout(function() {
+                window.print();
+            }, 500);
+        };
+    </script>
+</body>
+</html>

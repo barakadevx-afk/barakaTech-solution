@@ -1,10 +1,10 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
-import { Shield, Lock, User, AlertCircle } from 'lucide-react'
+import { Shield, Lock, Mail, AlertCircle, X } from 'lucide-react'
 import { useAdmin } from '../contexts/AdminContext'
 
 function AdminLogin({ onClose }) {
-  const [username, setUsername] = useState('')
+  const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const { login, error } = useAdmin()
@@ -12,11 +12,9 @@ function AdminLogin({ onClose }) {
   const handleSubmit = async (e) => {
     e.preventDefault()
     setIsLoading(true)
-    
-    const success = login(username, password)
-    
+    await new Promise(r => setTimeout(r, 400))
+    const success = login(email, password)
     setIsLoading(false)
-    
     if (success && onClose) {
       onClose()
     }
@@ -25,48 +23,55 @@ function AdminLogin({ onClose }) {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
       <motion.div
-        initial={{ opacity: 0, scale: 0.9 }}
-        animate={{ opacity: 1, scale: 1 }}
+        initial={{ opacity: 0, scale: 0.9, y: 20 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
         className="w-full max-w-md bg-white dark:bg-dark-200 rounded-2xl shadow-2xl overflow-hidden"
       >
         {/* Header */}
-        <div className="p-6 bg-gradient-to-r from-red-500 to-rose-600">
+        <div className="relative p-8 bg-gradient-to-br from-red-500 via-rose-500 to-orange-500">
+          <button
+            onClick={onClose}
+            className="absolute top-4 right-4 p-1.5 rounded-lg bg-white/20 hover:bg-white/30 text-white transition-colors"
+          >
+            <X className="w-4 h-4" />
+          </button>
           <div className="flex items-center justify-center mb-4">
-            <div className="p-3 rounded-full bg-white/20">
+            <div className="p-4 rounded-full bg-white/20 ring-4 ring-white/10">
               <Shield className="w-8 h-8 text-white" />
             </div>
           </div>
-          <h2 className="text-2xl font-bold text-white text-center">
-            Admin Login
-          </h2>
-          <p className="text-white/80 text-center text-sm mt-1">
-            Secure access only
-          </p>
+          <h2 className="text-2xl font-bold text-white text-center">Admin Access</h2>
+          <p className="text-white/80 text-center text-sm mt-1">Secure portal — authorised personnel only</p>
         </div>
 
         {/* Form */}
-        <div className="p-6">
+        <div className="p-8">
           {error && (
-            <div className="mb-4 p-3 rounded-lg bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 text-sm flex items-center gap-2">
-              <AlertCircle className="w-4 h-4" />
+            <motion.div
+              initial={{ opacity: 0, y: -8 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="mb-5 p-3 rounded-xl bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-500/30 text-red-600 dark:text-red-400 text-sm flex items-center gap-2"
+            >
+              <AlertCircle className="w-4 h-4 flex-shrink-0" />
               {error}
-            </div>
+            </motion.div>
           )}
 
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <form onSubmit={handleSubmit} className="space-y-5">
             <div>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                Username
+                Admin Email
               </label>
               <div className="relative">
-                <User className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
                 <input
-                  type="text"
-                  value={username}
-                  onChange={(e) => setUsername(e.target.value)}
-                  className="w-full pl-10 pr-4 py-3 rounded-lg bg-gray-50 dark:bg-dark-300 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white focus:outline-none focus:border-red-500"
-                  placeholder="Enter username"
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="w-full pl-10 pr-4 py-3 rounded-xl bg-gray-50 dark:bg-dark-300 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-red-500/30 focus:border-red-500 transition-all"
+                  placeholder="baraka@admin.com"
                   required
+                  autoComplete="email"
                 />
               </div>
             </div>
@@ -81,28 +86,34 @@ function AdminLogin({ onClose }) {
                   type="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full pl-10 pr-4 py-3 rounded-lg bg-gray-50 dark:bg-dark-300 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white focus:outline-none focus:border-red-500"
-                  placeholder="Enter password"
+                  className="w-full pl-10 pr-4 py-3 rounded-xl bg-gray-50 dark:bg-dark-300 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-red-500/30 focus:border-red-500 transition-all"
+                  placeholder="••••••••"
                   required
+                  autoComplete="current-password"
                 />
               </div>
             </div>
 
-            <button
+            <motion.button
               type="submit"
               disabled={isLoading}
-              className="w-full py-3 rounded-lg bg-gradient-to-r from-red-500 to-rose-600 text-white font-semibold disabled:opacity-50 hover:shadow-lg transition-shadow"
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              className="w-full py-3.5 rounded-xl bg-gradient-to-r from-red-500 to-rose-600 text-white font-semibold shadow-lg shadow-red-500/30 hover:shadow-xl hover:shadow-red-500/40 disabled:opacity-60 disabled:cursor-not-allowed transition-all flex items-center justify-center gap-2"
             >
-              {isLoading ? 'Logging in...' : 'Login'}
-            </button>
+              {isLoading ? (
+                <>
+                  <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                  Verifying...
+                </>
+              ) : (
+                <>
+                  <Shield className="w-4 h-4" />
+                  Sign In to Dashboard
+                </>
+              )}
+            </motion.button>
           </form>
-
-          <button
-            onClick={onClose}
-            className="w-full mt-4 py-2 text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 text-sm"
-          >
-            Cancel
-          </button>
         </div>
       </motion.div>
     </div>

@@ -33,6 +33,25 @@ function Contact() {
     return e
   }
 
+  const saveMessageLocally = (data) => {
+    try {
+      const existing = JSON.parse(localStorage.getItem('contact_messages') || '[]')
+      const newMsg = {
+        id: Date.now().toString(),
+        name: data.name,
+        email: data.email,
+        projectType: data.projectType,
+        budget: data.budget,
+        message: data.message,
+        date: new Date().toISOString(),
+        read: false,
+      }
+      localStorage.setItem('contact_messages', JSON.stringify([newMsg, ...existing]))
+    } catch {
+      // silently fail if localStorage is unavailable
+    }
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault()
     const v = validate()
@@ -40,9 +59,10 @@ function Contact() {
     setErrors({})
     setIsSubmitting(true)
     await new Promise(r => setTimeout(r, 800))
+    saveMessageLocally(formData)
     const subject = encodeURIComponent(`[Portfolio] ${formData.projectType || 'Inquiry'} from ${formData.name}`)
     const body = encodeURIComponent(`Name: ${formData.name}\nEmail: ${formData.email}\nProject Type: ${formData.projectType || 'N/A'}\nBudget: ${formData.budget || 'N/A'}\n\nMessage:\n${formData.message}`)
-    window.location.href = `mailto:barakadevx@gmail.com?subject=${subject}&body=${body}`
+    window.open(`mailto:barakadevx@gmail.com?subject=${subject}&body=${body}`, '_blank')
     setIsSubmitting(false)
     setSubmitted(true)
     setFormData({ name: '', email: '', projectType: '', budget: '', message: '' })
@@ -244,7 +264,7 @@ function Contact() {
               </motion.button>
 
               <p className="text-center text-xs text-gray-400 dark:text-gray-600 mt-4">
-                By submitting, your email client will open with a pre-filled message. No data is stored.
+                Your message is saved and your email client will open with a pre-filled reply.
               </p>
             </form>
           </motion.div>

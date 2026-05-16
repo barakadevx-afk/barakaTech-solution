@@ -1,5 +1,5 @@
 import { useContext } from 'react'
-import { NavigationContext } from '../App'
+import { NavigationContext } from './NavigationContext'
 
 export function useNavigate() {
   const context = useContext(NavigationContext)

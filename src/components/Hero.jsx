@@ -1,199 +1,377 @@
-import { ArrowDown, Github, Linkedin, Twitter, User, Sparkles, Download } from 'lucide-react'
+import { useState, useEffect, useRef } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
+import { ArrowDown, Github, Linkedin, Twitter, Download, Sparkles, Terminal, Zap, Code2, User } from 'lucide-react'
 import { useNavigate } from '../contexts/useNavigate'
+
+const roles = ['Full-Stack Developer', 'Game Developer', 'Security Engineer', 'AI Enthusiast', 'Problem Solver']
+
+const floatingBadges = [
+  { label: 'React', color: 'bg-blue-500/10 text-blue-400 border-blue-500/20', delay: 0 },
+  { label: 'Node.js', color: 'bg-green-500/10 text-green-400 border-green-500/20', delay: 0.5 },
+  { label: 'TypeScript', color: 'bg-indigo-500/10 text-indigo-400 border-indigo-500/20', delay: 1 },
+  { label: 'Python', color: 'bg-yellow-500/10 text-yellow-400 border-yellow-500/20', delay: 1.5 },
+  { label: 'Unity', color: 'bg-purple-500/10 text-purple-400 border-purple-500/20', delay: 0.8 },
+  { label: 'Docker', color: 'bg-cyan-500/10 text-cyan-400 border-cyan-500/20', delay: 1.3 },
+]
+
+function TypeWriter({ words, speed = 80, deleteSpeed = 40, pauseTime = 2000 }) {
+  const [currentWord, setCurrentWord] = useState(0)
+  const [currentText, setCurrentText] = useState('')
+  const [isDeleting, setIsDeleting] = useState(false)
+  const [showCursor, setShowCursor] = useState(true)
+
+  useEffect(() => {
+    const cursorInterval = setInterval(() => setShowCursor(p => !p), 500)
+    return () => clearInterval(cursorInterval)
+  }, [])
+
+  useEffect(() => {
+    const word = words[currentWord]
+    let timeout
+
+    if (!isDeleting && currentText === word) {
+      timeout = setTimeout(() => setIsDeleting(true), pauseTime)
+    } else if (isDeleting && currentText === '') {
+      setIsDeleting(false)
+      setCurrentWord(p => (p + 1) % words.length)
+    } else {
+      const delta = isDeleting ? deleteSpeed : speed
+      timeout = setTimeout(() => {
+        setCurrentText(isDeleting
+          ? word.substring(0, currentText.length - 1)
+          : word.substring(0, currentText.length + 1)
+        )
+      }, delta)
+    }
+    return () => clearTimeout(timeout)
+  }, [currentText, isDeleting, currentWord, words, speed, deleteSpeed, pauseTime])
+
+  return (
+    <span>
+      <span className="text-gradient">{currentText}</span>
+      <span className={`ml-0.5 inline-block w-0.5 h-8 bg-red-500 ${showCursor ? 'opacity-100' : 'opacity-0'}`} style={{ verticalAlign: 'middle' }} />
+    </span>
+  )
+}
+
+function Particles() {
+  const canvasRef = useRef(null)
+  const animationRef = useRef(null)
+
+  useEffect(() => {
+    const canvas = canvasRef.current
+    if (!canvas) return
+    const ctx = canvas.getContext('2d')
+    
+    let particles = []
+    const resize = () => {
+      canvas.width = canvas.offsetWidth
+      canvas.height = canvas.offsetHeight
+    }
+    resize()
+    window.addEventListener('resize', resize)
+
+    for (let i = 0; i < 40; i++) {
+      particles.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        r: Math.random() * 2 + 0.5,
+        dx: (Math.random() - 0.5) * 0.4,
+        dy: (Math.random() - 0.5) * 0.4,
+        opacity: Math.random() * 0.5 + 0.1,
+      })
+    }
+
+    const draw = () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height)
+      particles.forEach(p => {
+        ctx.beginPath()
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2)
+        ctx.fillStyle = `rgba(239, 68, 68, ${p.opacity})`
+        ctx.fill()
+        p.x += p.dx
+        p.y += p.dy
+        if (p.x < 0 || p.x > canvas.width) p.dx *= -1
+        if (p.y < 0 || p.y > canvas.height) p.dy *= -1
+      })
+      animationRef.current = requestAnimationFrame(draw)
+    }
+    draw()
+
+    return () => {
+      window.removeEventListener('resize', resize)
+      if (animationRef.current) cancelAnimationFrame(animationRef.current)
+    }
+  }, [])
+
+  return <canvas ref={canvasRef} className="absolute inset-0 w-full h-full pointer-events-none" />
+}
 
 function Hero() {
   const navigateTo = useNavigate()
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => { setMounted(true) }, [])
 
   return (
-    <section id="home" className="relative min-h-[calc(100vh-4rem)] flex items-center justify-center py-8 sm:py-12 lg:py-20">
-      <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
-          {/* Left Column - Profile Image */}
-          <div className="flex flex-col items-center lg:items-start order-1">
-            {/* Handwritten style greeting */}
-            <div className="mb-4 lg:self-start">
-              <span className="font-hand text-3xl text-red-500 transform -rotate-6 inline-block">
-                Hey there! 👋
-              </span>
-            </div>
+    <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden">
+      {/* Background */}
+      <div className="absolute inset-0 bg-gradient-to-br from-gray-50 via-white to-red-50/30 dark:from-dark-300 dark:via-dark-200 dark:to-dark-100" />
+      <Particles />
 
-            <div className="relative inline-block">
-              {/* Profile image container */}
-              <div className="relative w-40 h-40 sm:w-48 sm:h-48 md:w-56 md:h-56 lg:w-64 lg:h-64 xl:w-72 xl:h-72 rounded-3xl overflow-hidden border-4 border-gray-200 dark:border-gray-700 bg-gray-100 dark:bg-gray-800 shadow-xl">
-                  <img
-                    src="public/profile.jpg"
-                    alt="Baraka - Full-Stack Developer"
-                    className="w-full h-full object-cover"
-                    loading="lazy"
-                    onError={(e) => {
-                      e.target.style.display = 'none'
-                      e.target.nextSibling.style.display = 'flex'
-                    }}
-                  />
-                  {/* Fallback avatar */}
-                  <div
-                    className="absolute inset-0 hidden items-center justify-center bg-red-600"
-                    style={{ display: 'none' }}
-                  >
-                    <User className="w-24 h-24 sm:w-32 sm:h-32 text-white" />
-                  </div>
-              </div>
-              
-              {/* Status indicator */}
-              <div className="absolute -bottom-2 -right-2 sm:-bottom-3 sm:-right-3 flex items-center gap-1.5 px-2.5 py-1 sm:px-3 sm:py-1.5 bg-white dark:bg-gray-800 rounded-full shadow-md border border-gray-200 dark:border-gray-700">
-                <div className="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full bg-green-500" />
-                <span className="text-xs font-medium text-gray-700 dark:text-gray-300">Available</span>
-              </div>
-              </div>
+      {/* Decorative blobs */}
+      <div className="absolute top-20 right-10 w-72 h-72 bg-red-400/10 rounded-full filter blur-3xl animate-blob" />
+      <div className="absolute bottom-20 left-10 w-96 h-96 bg-rose-400/10 rounded-full filter blur-3xl animate-blob" style={{ animationDelay: '3s' }} />
+      <div className="absolute top-1/2 left-1/3 w-64 h-64 bg-orange-400/8 rounded-full filter blur-3xl animate-blob" style={{ animationDelay: '6s' }} />
 
-            {/* Personal touch */}
-            <div className="mt-6 sm:mt-8 flex flex-col items-center lg:items-start gap-2">
-              <div className="inline-flex items-center gap-2 px-4 py-2 sm:px-5 sm:py-2.5 rounded-xl bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800 text-red-700 dark:text-red-300 text-sm font-semibold">
-                <Sparkles className="w-4 h-4" />
-                Baraka Tech Solution
-              </div>
-              <span className="text-sm sm:text-base lg:text-lg text-gray-600 dark:text-gray-400">
-                Building cool stuff since 2023 ✨
-              </span>
-            </div>
-          </div>
+      {/* Grid pattern */}
+      <div className="absolute inset-0 opacity-[0.02] dark:opacity-[0.04]"
+        style={{ backgroundImage: 'linear-gradient(rgba(239,68,68,1) 1px, transparent 1px), linear-gradient(90deg, rgba(239,68,68,1) 1px, transparent 1px)', backgroundSize: '50px 50px' }} />
 
-          {/* Right Column - Content with human feel */}
-          <div className="flex flex-col items-center lg:items-start text-center lg:text-left order-2">
-            {/* Casual greeting */}
-            <p className="font-hand text-2xl text-red-400 mb-2">I'm a</p>
+      <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 pt-32">
+        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+          {/* Left — Content */}
+          <motion.div
+            initial={{ opacity: 0, x: -40 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8, ease: 'easeOut' }}
+            className="order-2 lg:order-1 text-center lg:text-left"
+          >
+            {/* Badge */}
+            <motion.div
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2 }}
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-red-50 dark:bg-red-500/10 border border-red-200 dark:border-red-500/30 text-red-600 dark:text-red-400 text-sm font-medium mb-6"
+            >
+              <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
+              Available for hire
+              <Sparkles className="w-3.5 h-3.5" />
+            </motion.div>
 
-            {/* Main Heading */}
-            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-4xl xl:text-5xl font-bold mb-3 sm:mb-4 leading-tight">
-              Developer, Creator,{' '}
-              <span className="text-red-600 dark:text-red-400">Dreamer</span>
-            </h1>
+            {/* Greeting */}
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.3 }}
+              className="font-hand text-2xl sm:text-3xl text-gray-500 dark:text-gray-400 mb-2"
+            >
+              Hey there! 👋 I&apos;m Baraka
+            </motion.p>
 
-            {/* Unified Code Form */}
-            <div className="w-full max-w-lg mb-6 sm:mb-8">
-              <div className="bg-gray-900 rounded-lg overflow-hidden border border-gray-800">
-                {/* Header */}
-                <div className="flex items-center gap-2 px-3 py-2 bg-gray-800 border-b border-gray-700">
-                  <div className="flex gap-1.5">
-                    <div className="w-2.5 h-2.5 rounded-full bg-red-500" />
-                    <div className="w-2.5 h-2.5 rounded-full bg-yellow-500" />
-                    <div className="w-2.5 h-2.5 rounded-full bg-green-500" />
-                  </div>
-                  <span className="ml-3 text-xs text-gray-400 font-mono">Baraka.js</span>
-                </div>
-                {/* Code Content */}
-                <div className="p-4 font-mono text-sm leading-relaxed">
-                  <code className="text-gray-300">
-                    <span className="text-purple-400">const</span>{' '}
-                    <span className="text-blue-400">developer</span>{' '}
-                    <span className="text-gray-500">=</span>{' '}
-                    <span className="text-yellow-400">{'{'}</span>{'\n'}
-                    {'  '}<span className="text-red-400">name</span>
-                    <span className="text-gray-500">:</span>{' '}
-                    <span className="text-green-400">'Baraka'</span>
-                    <span className="text-gray-500">,</span>{'\n'}
-                    {'  '}<span className="text-red-400">title</span>
-                    <span className="text-gray-500">:</span>{' '}
-                    <span className="text-green-400">'Full Stack Dev'</span>
-                    <span className="text-gray-500">,</span>{'\n'}
-                    {'  '}<span className="text-red-400">skills</span>
-                    <span className="text-gray-500">: [</span>
-                    <span className="text-green-400">'React'</span>
-                    <span className="text-gray-500">,</span>{'\n'}
-                    {'          '}<span className="text-green-400">'Node.js'</span>
-                    <span className="text-gray-500">,</span>{'\n'}
-                    {'          '}<span className="text-green-400">'TypeScript'</span>
-                    <span className="text-gray-500">],</span>{'\n'}
-                    {'  '}<span className="text-red-400">passion</span>
-                    <span className="text-gray-500">:</span>{' '}
-                    <span className="text-green-400">'Building things'</span>
-                    <span className="text-gray-500">,</span>{'\n'}
-                    {'  '}<span className="text-red-400">mission</span>
-                    <span className="text-gray-500">:</span>{' '}
-                    <span className="text-green-400">'build awesome things'</span>
-                    <span className="text-gray-500">,</span>{'\n'}
-                    {'  '}<span className="text-red-400">loves</span>
-                    <span className="text-gray-500">:</span>{' '}
-                    <span className="text-green-400">'turning ideas → reality'</span>
-                    <span className="text-gray-500">,</span>{'\n'}
-                    {'  '}<span className="text-red-400">motto</span>
-                    <span className="text-gray-500">:</span>{' '}
-                    <span className="text-green-400">'Currently learning'</span>
-                    <span className="text-gray-500">,</span>{'\n'}
-                    {'  '}<span className="text-red-400">available</span>
-                    <span className="text-gray-500">:</span>{' '}
-                    <span className="text-orange-400">true</span>{'\n'}
-                    <span className="text-yellow-400">{'}'}</span>
-                    <span className="text-gray-500">;</span>{'\n'}
-                    {'\n'}
-                    <span className="text-blue-400">developer</span>
-                    <span className="text-gray-500">.</span>
-                    <span className="text-yellow-300">sayHi</span>
-                    <span className="text-gray-500">();</span>{' '}
-                    <span className="text-gray-600"></span>
-                  </code>
-                </div>
-              </div>
-            </div>
+            {/* Headline */}
+            <motion.h1
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.4 }}
+              className="text-4xl sm:text-5xl lg:text-5xl xl:text-6xl font-bold leading-tight mb-4 text-gray-900 dark:text-white"
+            >
+              Developer,{' '}
+              <span className="font-hand text-red-500">Creator</span>
+              <br />
+              &amp; Dreamer
+            </motion.h1>
+
+            {/* Typewriter */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.5 }}
+              className="text-xl sm:text-2xl font-semibold mb-6 h-9 text-gray-700 dark:text-gray-300"
+            >
+              {mounted && <TypeWriter words={roles} />}
+            </motion.div>
+
+            {/* Description */}
+            <motion.p
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.6 }}
+              className="text-gray-600 dark:text-gray-400 text-lg leading-relaxed mb-8 max-w-lg mx-auto lg:mx-0"
+            >
+              I build full-stack web apps, immersive games, and secure systems. 
+              Turning ideas into reality — one line of code at a time.
+            </motion.p>
 
             {/* CTA Buttons */}
-            <div className="flex flex-wrap items-center justify-center lg:justify-start gap-2 sm:gap-3 mb-6 sm:mb-8">
-              <button
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.7 }}
+              className="flex flex-wrap items-center justify-center lg:justify-start gap-3 mb-8"
+            >
+              <motion.button
                 onClick={() => navigateTo('projects')}
-                className="px-5 sm:px-7 py-2.5 sm:py-3 rounded-lg bg-red-600 text-white font-semibold hover:bg-red-700 transition-colors text-sm sm:text-base"
+                whileHover={{ scale: 1.05, boxShadow: '0 10px 30px rgba(239,68,68,0.4)' }}
+                whileTap={{ scale: 0.97 }}
+                className="px-7 py-3.5 rounded-xl bg-gradient-to-r from-red-600 to-rose-600 text-white font-semibold shadow-lg shadow-red-500/30 flex items-center gap-2"
               >
+                <Zap className="w-4 h-4" />
                 View My Work
-              </button>
-              <button
+              </motion.button>
+              <motion.button
                 onClick={() => navigateTo('contact')}
-                className="px-5 sm:px-7 py-2.5 sm:py-3 rounded-lg border-2 border-red-600 text-red-600 dark:text-red-400 font-semibold hover:bg-red-50 dark:hover:bg-red-900/30 transition-colors text-sm sm:text-base"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.97 }}
+                className="px-7 py-3.5 rounded-xl border-2 border-red-500/50 text-red-600 dark:text-red-400 font-semibold hover:bg-red-50 dark:hover:bg-red-500/10 transition-colors"
               >
                 Get In Touch
-              </button>
-              <a
+              </motion.button>
+              <motion.a
                 href="/resume.html"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="px-5 sm:px-7 py-2.5 sm:py-3 rounded-lg bg-gray-100 dark:bg-gray-800 text-gray-800 dark:text-gray-200 font-semibold hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors flex items-center gap-2 text-sm sm:text-base"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.97 }}
+                className="px-7 py-3.5 rounded-xl bg-gray-100 dark:bg-dark-100 text-gray-700 dark:text-gray-300 font-semibold hover:bg-gray-200 dark:hover:bg-dark-50 transition-colors flex items-center gap-2"
               >
-                <Download className="w-4 h-4 sm:w-5 sm:h-5" />
-                My Resume
-              </a>
-            </div>
+                <Download className="w-4 h-4" />
+                Resume
+              </motion.a>
+            </motion.div>
 
-            {/* Social Links */}
-            <div className="flex items-center justify-center lg:justify-start gap-2 sm:gap-3">
+            {/* Socials */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.85 }}
+              className="flex items-center justify-center lg:justify-start gap-3"
+            >
               {[
-                { icon: Github, href: 'https://github.com/barakadevx-afk', label: 'GitHub', bg: 'bg-gray-800 hover:bg-gray-900' },
-                { icon: Linkedin, href: 'https://linkedin.com', label: 'LinkedIn', bg: 'bg-blue-600 hover:bg-blue-700' },
-                { icon: Twitter, href: 'https://twitter.com', label: 'Twitter', bg: 'bg-sky-500 hover:bg-sky-600' },
-              ].map((social) => (
-                <a
-                  key={social.label}
-                  href={social.href}
+                { icon: Github, href: 'https://github.com/barakadevx-afk', label: 'GitHub', bg: 'hover:bg-gray-900 hover:text-white dark:hover:bg-white dark:hover:text-gray-900' },
+                { icon: Linkedin, href: 'https://linkedin.com', label: 'LinkedIn', bg: 'hover:bg-blue-600 hover:text-white' },
+                { icon: Twitter, href: 'https://twitter.com', label: 'Twitter', bg: 'hover:bg-sky-500 hover:text-white' },
+              ].map((s) => (
+                <motion.a
+                  key={s.label}
+                  href={s.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className={`p-2.5 sm:p-3 rounded-lg text-white ${social.bg} transition-colors`}
-                  aria-label={social.label}
+                  whileHover={{ y: -3 }}
+                  className={`p-3 rounded-xl border border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-400 transition-all ${s.bg}`}
+                  aria-label={s.label}
                 >
-                  <social.icon className="w-4 h-4 sm:w-5 sm:h-5" />
-                </a>
+                  <s.icon className="w-5 h-5" />
+                </motion.a>
               ))}
+              <span className="ml-2 text-sm text-gray-500 dark:text-gray-500">Follow me</span>
+            </motion.div>
+          </motion.div>
+
+          {/* Right — Profile & Code */}
+          <motion.div
+            initial={{ opacity: 0, x: 40 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8, ease: 'easeOut', delay: 0.2 }}
+            className="order-1 lg:order-2 flex flex-col items-center gap-6"
+          >
+            {/* Profile image */}
+            <div className="relative">
+              <div className="w-48 h-48 sm:w-56 sm:h-56 md:w-64 md:h-64 rounded-3xl overflow-hidden border-4 border-white dark:border-dark-100 shadow-2xl ring-4 ring-red-500/20">
+                <img
+                  src="/profile.jpg"
+                  alt="Baraka"
+                  className="w-full h-full object-cover"
+                  onError={(e) => { e.target.style.display = 'none'; e.target.nextSibling.style.display = 'flex' }}
+                />
+                <div className="hidden absolute inset-0 items-center justify-center bg-gradient-to-br from-red-500 to-rose-600">
+                  <User className="w-20 h-20 text-white" />
+                </div>
+              </div>
+
+              {/* Status badge */}
+              <div className="absolute -bottom-3 -right-3 flex items-center gap-1.5 px-3 py-1.5 bg-white dark:bg-dark-100 rounded-full shadow-lg border border-gray-100 dark:border-gray-700">
+                <span className="w-2.5 h-2.5 rounded-full bg-green-400 animate-pulse" />
+                <span className="text-xs font-semibold text-gray-700 dark:text-gray-300">Available</span>
+              </div>
+
+              {/* Floating tech badges */}
+              {floatingBadges.map((badge, i) => {
+                const positions = [
+                  'top-0 -left-16', 'top-1/4 -right-16', 'bottom-1/4 -left-16',
+                  'bottom-0 -right-12', '-top-4 right-8', 'top-1/2 -left-20',
+                ]
+                return (
+                  <motion.div
+                    key={badge.label}
+                    className={`absolute hidden sm:block ${positions[i]}`}
+                    animate={{ y: [0, -8, 0] }}
+                    transition={{ duration: 3, repeat: Infinity, delay: badge.delay, ease: 'easeInOut' }}
+                  >
+                    <span className={`px-2.5 py-1 rounded-lg text-xs font-medium border ${badge.color} backdrop-blur-sm whitespace-nowrap`}>
+                      {badge.label}
+                    </span>
+                  </motion.div>
+                )
+              })}
             </div>
-          </div>
+
+            {/* Code snippet card */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.9 }}
+              className="w-full max-w-sm"
+            >
+              <div className="bg-gray-950 dark:bg-black/50 rounded-2xl overflow-hidden border border-gray-800 shadow-2xl">
+                <div className="flex items-center gap-2 px-4 py-3 bg-gray-900 border-b border-gray-800">
+                  <div className="flex gap-1.5">
+                    <div className="w-3 h-3 rounded-full bg-red-500" />
+                    <div className="w-3 h-3 rounded-full bg-yellow-500" />
+                    <div className="w-3 h-3 rounded-full bg-green-500" />
+                  </div>
+                  <div className="flex items-center gap-1.5 ml-2">
+                    <Terminal className="w-3.5 h-3.5 text-gray-500" />
+                    <span className="text-xs text-gray-400 font-mono">baraka.config.js</span>
+                  </div>
+                </div>
+                <div className="p-4 font-mono text-xs leading-6 overflow-x-auto">
+                  <p><span className="text-purple-400">const</span> <span className="text-blue-300">dev</span> <span className="text-gray-500">=</span> <span className="text-yellow-300">{'{'}</span></p>
+                  <p className="pl-4"><span className="text-red-400">name</span><span className="text-gray-500">:</span> <span className="text-green-400">&apos;Baraka&apos;</span><span className="text-gray-500">,</span></p>
+                  <p className="pl-4"><span className="text-red-400">stack</span><span className="text-gray-500">:</span> <span className="text-yellow-300">[</span><span className="text-green-400">&apos;React&apos;</span><span className="text-gray-500">,</span> <span className="text-green-400">&apos;Node&apos;</span><span className="text-yellow-300">]</span><span className="text-gray-500">,</span></p>
+                  <p className="pl-4"><span className="text-red-400">passion</span><span className="text-gray-500">:</span> <span className="text-green-400">&apos;Building cool things&apos;</span><span className="text-gray-500">,</span></p>
+                  <p className="pl-4"><span className="text-red-400">available</span><span className="text-gray-500">:</span> <span className="text-orange-400">true</span><span className="text-gray-500">,</span></p>
+                  <p className="pl-4"><span className="text-red-400">coffee</span><span className="text-gray-500">:</span> <span className="text-orange-400">Infinity</span></p>
+                  <p><span className="text-yellow-300">{'}'}</span></p>
+                  <p className="mt-1">
+                    <span className="text-blue-300">dev</span>
+                    <span className="text-gray-500">.</span>
+                    <span className="text-yellow-200">build</span>
+                    <span className="text-gray-500">(</span>
+                    <span className="text-green-400">&apos;amazing things&apos;</span>
+                    <span className="text-gray-500">)</span>
+                    <span className="text-gray-700 ml-2">// ✓</span>
+                  </p>
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
         </div>
       </div>
 
-      {/* Scroll Indicator - Hidden on mobile */}
-      <div className="hidden sm:block absolute bottom-6 lg:bottom-8 left-1/2 -translate-x-1/2 z-20">
-        <a
-          href="#about"
-          className="flex flex-col items-center gap-1 px-3 py-1.5 rounded-lg bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 hover:text-red-600 transition-colors text-xs"
+      {/* Scroll indicator */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1.5 }}
+        className="absolute bottom-8 left-1/2 -translate-x-1/2"
+      >
+        <motion.div
+          animate={{ y: [0, 8, 0] }}
+          transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+          className="flex flex-col items-center gap-1 cursor-pointer group"
+          onClick={() => navigateTo('about')}
         >
-          <span className="font-medium">Scroll Down</span>
-          <ArrowDown className="w-4 h-4" />
-        </a>
-      </div>
+          <span className="text-xs text-gray-500 dark:text-gray-500 group-hover:text-red-500 transition-colors">Scroll down</span>
+          <div className="w-6 h-10 rounded-full border-2 border-gray-300 dark:border-gray-700 flex items-start justify-center p-1.5 group-hover:border-red-400 transition-colors">
+            <motion.div
+              animate={{ y: [0, 12, 0] }}
+              transition={{ duration: 1.5, repeat: Infinity }}
+              className="w-1.5 h-1.5 rounded-full bg-gray-400 dark:bg-gray-500 group-hover:bg-red-500 transition-colors"
+            />
+          </div>
+        </motion.div>
+      </motion.div>
     </section>
   )
 }

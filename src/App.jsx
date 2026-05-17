@@ -110,7 +110,14 @@ function App() {
       setDarkMode(true)
     }
     const timer = setTimeout(() => setIsLoading(false), 1000)
-    return () => clearTimeout(timer)
+    const onNav = (e) => navigateTo(e.detail)
+    window.addEventListener('navigate', onNav)
+    document.addEventListener('navigate', onNav)
+    return () => {
+      clearTimeout(timer)
+      window.removeEventListener('navigate', onNav)
+      document.removeEventListener('navigate', onNav)
+    }
   }, [])
 
   useEffect(() => {

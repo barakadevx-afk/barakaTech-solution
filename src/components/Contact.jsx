@@ -1,6 +1,7 @@
 import { useRef, useState } from 'react'
 import { motion, useInView } from 'framer-motion'
 import { Mail, MapPin, Phone, Send, Linkedin, Github, Twitter, CheckCircle, AlertCircle, Clock, MessageSquare, Zap } from 'lucide-react'
+import { submitContactMessage } from '../lib/api'
 
 const contactInfo = [
   { icon: Mail, label: 'Email', value: 'barakadevx@gmail.com', href: 'mailto:barakadevx@gmail.com', color: 'bg-red-50 dark:bg-red-500/10 text-red-600 dark:text-red-400', hover: 'hover:bg-red-500' },
@@ -33,33 +34,23 @@ function Contact() {
     return e
   }
 
-  const saveMessageLocally = (data) => {
-    try {
-      const existing = JSON.parse(localStorage.getItem('contact_messages') || '[]')
-      const newMsg = {
-        id: Date.now().toString(),
-        name: data.name,
-        email: data.email,
-        projectType: data.projectType,
-        budget: data.budget,
-        message: data.message,
-        date: new Date().toISOString(),
-        read: false,
-      }
-      localStorage.setItem('contact_messages', JSON.stringify([newMsg, ...existing]))
-    } catch {
-      // silently fail if localStorage is unavailable
-    }
-  }
-
   const handleSubmit = async (e) => {
     e.preventDefault()
     const v = validate()
     if (Object.keys(v).length) { setErrors(v); return }
     setErrors({})
     setIsSubmitting(true)
-    await new Promise(r => setTimeout(r, 800))
-    saveMessageLocally(formData)
+    try {
+      await submitContactMessage({
+        name: formData.name,
+        email: formData.email,
+        projectType: formData.projectType,
+        budget: formData.budget,
+        message: formData.message,
+      })
+    } catch {
+      // non-blocking — still open mailto even if API fails
+    }
     const subject = encodeURIComponent(`[Portfolio] ${formData.projectType || 'Inquiry'} from ${formData.name}`)
     const body = encodeURIComponent(`Name: ${formData.name}\nEmail: ${formData.email}\nProject Type: ${formData.projectType || 'N/A'}\nBudget: ${formData.budget || 'N/A'}\n\nMessage:\n${formData.message}`)
     window.open(`mailto:barakadevx@gmail.com?subject=${subject}&body=${body}`, '_blank')

@@ -1,10 +1,7 @@
 import { createContext, useContext, useState, useCallback } from 'react'
+import { adminLogin as apiLogin, fetchAdminMessages, markMessageRead, deleteAdminMessage } from '../lib/api'
 
 const AdminContext = createContext(null)
-
-const ADMIN_EMAIL = 'baraka@admin.com'
-const ADMIN_PASSWORD = 'Baraka@123'
-const MESSAGES_KEY = 'contact_messages'
 
 export function AdminProvider({ children }) {
   const [isAdmin, setIsAdmin] = useState(() => {
@@ -12,14 +9,20 @@ export function AdminProvider({ children }) {
   })
   const [error, setError] = useState(null)
 
-  const login = useCallback((email, password) => {
+  const login = useCallback(async (email, password) => {
     setError(null)
-    if (email === ADMIN_EMAIL && password === ADMIN_PASSWORD) {
-      setIsAdmin(true)
-      localStorage.setItem('isAdmin', 'true')
-      return true
-    } else {
-      setError('Invalid email or password')
+    try {
+      const result = await apiLogin(email, password)
+      if (result.success) {
+        setIsAdmin(true)
+        localStorage.setItem('isAdmin', 'true')
+        return true
+      } else {
+        setError(result.error || 'Invalid email or password')
+        return false
+      }
+    } catch {
+      setError('Connection error — please try again')
       return false
     }
   }, [])
@@ -30,24 +33,17 @@ export function AdminProvider({ children }) {
     setError(null)
   }, [])
 
-  const getMessages = useCallback(() => {
-    try {
-      return JSON.parse(localStorage.getItem(MESSAGES_KEY) || '[]')
-    } catch {
-      return []
-    }
+  const getMessages = useCallback(async () => {
+    const result = await fetchAdminMessages()
+    return result.messages || []
   }, [])
 
-  const markAsRead = useCallback((id) => {
-    const msgs = JSON.parse(localStorage.getItem(MESSAGES_KEY) || '[]')
-    const updated = msgs.map(m => m.id === id ? { ...m, read: true } : m)
-    localStorage.setItem(MESSAGES_KEY, JSON.stringify(updated))
+  const markAsRead = useCallback(async (id) => {
+    await markMessageRead(id)
   }, [])
 
-  const deleteMessage = useCallback((id) => {
-    const msgs = JSON.parse(localStorage.getItem(MESSAGES_KEY) || '[]')
-    const updated = msgs.filter(m => m.id !== id)
-    localStorage.setItem(MESSAGES_KEY, JSON.stringify(updated))
+  const deleteMessage = useCallback(async (id) => {
+    await deleteAdminMessage(id)
   }, [])
 
   const value = {
@@ -74,4 +70,3 @@ export function useAdmin() {
   }
   return context
 }
-

@@ -6,43 +6,34 @@ import { Briefcase, GraduationCap, Award, Calendar } from 'lucide-react'
 const experiences = [
   {
     type: 'work',
-    title: 'Senior Full-Stack Developer',
-    company: 'Tech Innovators Ltd',
-    period: '2022 - Present',
-    description: 'Leading development of enterprise web applications, mentoring junior developers, and architecting scalable systems.',
-    achievements: ['Reduced load times by 60%', 'Led team of 5 developers', 'Migrated legacy systems'],
+    title: 'Freelance Full-Stack Developer',
+    company: 'Self-Employed / Baraka Tech Solution',
+    period: '2023 - Present',
+    description: 'Building web apps, games, and security solutions for clients globally. Handling everything from planning to deployment.',
+    achievements: ['Shipped 50+ projects', 'Clients across multiple countries', 'Full-stack + security work'],
   },
   {
     type: 'work',
     title: 'Game Developer',
-    company: 'Indie Studio Games',
-    period: '2020 - 2022',
-    description: 'Developed 2D/3D games using Unity and Unreal Engine, built game logic systems and multiplayer functionality.',
-    achievements: ['Shipped 3 titles', 'Built behavior tree systems', 'Optimized rendering pipeline'],
-  },
-  {
-    type: 'work',
-    title: 'Cybersecurity Analyst',
-    company: 'SecureNet Solutions',
-    period: '2019 - 2020',
-    description: 'Conducted penetration testing, vulnerability assessments, and implemented security protocols.',
-    achievements: ['Identified 50+ vulnerabilities', 'Developed security framework', 'CISSP Certified'],
+    company: 'Personal Projects',
+    period: '2023 - Present',
+    description: 'Building 2D/3D games using Unity and Unreal Engine with custom game logic, multiplayer systems, and polished mechanics.',
+    achievements: ['Built multiple playable titles', 'Behavior tree systems', 'Real-time multiplayer'],
   },
   {
     type: 'education',
-    title: 'BSc Computer Science',
-    company: 'University of Technology',
-    period: '2015 - 2019',
-    description: 'Focus on Software Engineering, Cybersecurity, and Game Development. Graduated with First Class Honors.',
-    achievements: ['Dean\'s List all semesters',         'Game Dev Club President'],
+    title: 'Secondary Education',
+    company: 'Rwanda Secondary School',
+    period: '2023 - 2027',
+    description: 'Currently completing secondary school. Self-taught full-stack development alongside formal education.',
+    achievements: ['Self-taught 50+ projects', 'Freelancing while in school', 'Building production apps'],
   },
 ]
 
 const certifications = [
-  { name: 'CISSP', issuer: 'ISC²', year: '2020' },
-  { name: 'AWS Solutions Architect', issuer: 'Amazon', year: '2021' },
-  { name: 'Unity Certified Developer', issuer: 'Unity', year: '2021' },
-  { name: 'CEH', issuer: 'EC-Council', year: '2019' },
+  { name: 'Full-Stack Development', issuer: 'Portfolio Projects', year: '2023-2024' },
+  { name: 'Cybersecurity Fundamentals', issuer: 'Self-Taught', year: '2024' },
+  { name: 'Game Development', issuer: 'Unity / Unreal Projects', year: '2024' },
 ]
 
 function Experience() {
@@ -67,7 +58,7 @@ function Experience() {
             <span className="text-gradient">Education</span>
           </h2>
           <p className="max-w-2xl mx-auto text-gray-600 dark:text-gray-400 text-lg">
-            My professional journey across software engineering, game development, and cybersecurity.
+            My journey as a self-taught developer building real things while still in school.
           </p>
         </motion.div>
 

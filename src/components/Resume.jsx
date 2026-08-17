@@ -53,7 +53,6 @@ function Resume() {
     'Frontend': ['React', 'JavaScript', 'TypeScript', 'HTML5', 'CSS3', 'Tailwind CSS', 'Framer Motion'],
     'Backend': ['Node.js', 'Python', 'Express', 'FastAPI', 'REST APIs'],
     'Database': ['PostgreSQL', 'MongoDB', 'Mongoose', 'Redis'],
-    'Tools': ['Docker', 'Linux', 'Git', 'CI/CD', 'Cloud Deployment'],
     'DevOps': ['Git', 'Docker', 'Linux', 'CI/CD', 'Cloud Deployment'],
     'Security': ['Kali Linux', 'Tor Browser', 'Penetration Testing', 'Ethical Hacking'],
     'Game Dev': ['Unity', 'Unreal Engine', 'C#', 'C++', 'Behavior Trees'],
@@ -62,7 +61,6 @@ function Resume() {
   const certifications = [
     { name: 'Full-Stack Development', issuer: 'Portfolio Projects', year: '2023-2024' },
     { name: 'Cybersecurity Fundamentals', issuer: 'Self-Taught', year: '2024' },
-    { name: 'Full-Stack Development', issuer: 'Portfolio Projects', year: '2023-2024' },
     { name: 'Game Development', issuer: 'Unity/Unreal Projects', year: '2024' },
   ]
 

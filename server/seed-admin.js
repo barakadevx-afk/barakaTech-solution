@@ -70,9 +70,9 @@ try {
 // ── Testimonials ──
 const testimonials = [
   { name: 'Ishimwe Kevin', role: 'Full stack Developer', image: '/kevin.jpg', content: 'Baraka delivered an exceptional full-stack solution that transformed our operations. His attention to security and performance is unmatched.', rating: 5, project: 'Enterprise SaaS Platform', isApproved: true },
-  { name: 'ishimwe jeanclaude', role: 'Full stack Developer', image: '/ish.jpg', content: 'The behavior system Baraka implemented for our RPG was groundbreaking. He truly understands game mechanics and player psychology.', rating: 5, project: 'Fantasy RPG Game', isApproved: true },
-  { name: 'izere elias', role: 'Advanced Information Security Engineer', image: '/elias.png', content: 'His penetration testing revealed vulnerabilities we never knew existed. Baraka\'s security audit saved us from potential disasters.', rating: 5, project: 'Security Audit', isApproved: true },
-  { name: 'Baraka DevX', role: 'Game And Web Developer & Security Specialist', image: '/profile.jpg', content: 'Fast, efficient, and incredibly skilled. The learning platform he built handles 10,000+ concurrent users without breaking a sweat.', rating: 5, project: 'E-Learning Platform', isApproved: true },
+  { name: 'Ishimwe Jean Claude', role: 'Full stack Developer', image: '/ish.jpg', content: 'The behavior system Baraka implemented for our RPG was groundbreaking. He truly understands game mechanics and player psychology.', rating: 5, project: 'Fantasy RPG Game', isApproved: true },
+  { name: 'Izere Elias', role: 'Information Security Engineer', image: '/elias.png', content: 'His penetration testing revealed vulnerabilities we never knew existed. Baraka\'s security audit saved us from potential disasters.', rating: 5, project: 'Security Audit', isApproved: true },
+  { name: 'Niyonzima Alex', role: 'Startup Founder', image: '/profile.jpg', content: 'Fast, efficient, and incredibly skilled. The learning platform he built handles thousands of concurrent users without breaking a sweat.', rating: 5, project: 'E-Learning Platform', isApproved: true },
 ]
 
 try {

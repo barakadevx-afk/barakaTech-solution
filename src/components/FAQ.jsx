@@ -5,7 +5,7 @@ import { ChevronDown, HelpCircle, MessageSquare } from 'lucide-react'
 const faqs = [
   {
     q: 'What technologies do you specialize in?',
-    a: 'I specialize in the full JavaScript/TypeScript stack — React, Next.js, Node.js, and Express on the backend. I also have strong experience with Python for backend and ML tasks, Unity for game development, and various security tools for cybersecurity work. I\'m always learning new technologies as projects demand.',
+    a: 'I specialize in the full JavaScript/TypeScript stack — React, Next.js, Node.js, and Express on the backend. I also work with Python for backend tasks, Unity for game development, and various security tools for cybersecurity work. I\'m always learning new technologies as projects demand.',
   },
   {
     q: 'Are you available for freelance projects?',

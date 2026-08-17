@@ -1,13 +1,9 @@
 import express from 'express'
 import cors from 'cors'
-import pg from 'pg'
+import connectDB from './mongodb.js'
+import ContactMessage from './models/ContactMessage.js'
 
-const { Pool } = pg
-
-const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
-  ssl: process.env.DATABASE_URL?.includes('localhost') ? false : { rejectUnauthorized: false },
-})
+await connectDB()
 
 const app = express()
 app.use(cors())
@@ -23,13 +19,8 @@ app.post('/api/messages', async (req, res) => {
     return res.status(400).json({ error: 'name, email, and message are required' })
   }
   try {
-    const result = await pool.query(
-      `INSERT INTO contact_messages (name, email, project_type, budget, message)
-       VALUES ($1, $2, $3, $4, $5)
-       RETURNING id, name, email, project_type, budget, message, is_read, created_at`,
-      [name, email, projectType || null, budget || null, message]
-    )
-    res.status(201).json({ success: true, message: result.rows[0] })
+    const doc = await ContactMessage.create({ name, email, projectType, budget, message })
+    res.status(201).json({ success: true, message: doc })
   } catch (err) {
     console.error('Insert error:', err)
     res.status(500).json({ error: 'Failed to save message' })
@@ -53,13 +44,8 @@ app.get('/api/admin/messages', async (req, res) => {
     return res.status(403).json({ error: 'Forbidden' })
   }
   try {
-    const result = await pool.query(
-      `SELECT id, name, email, project_type AS "projectType", budget,
-              message, is_read AS "isRead", created_at AS "createdAt"
-       FROM contact_messages
-       ORDER BY created_at DESC`
-    )
-    res.json({ messages: result.rows })
+    const messages = await ContactMessage.find().sort({ createdAt: -1 }).lean()
+    res.json({ messages })
   } catch (err) {
     console.error('Fetch error:', err)
     res.status(500).json({ error: 'Failed to fetch messages' })
@@ -74,7 +60,7 @@ app.patch('/api/admin/messages/:id/read', async (req, res) => {
   }
   const { id } = req.params
   try {
-    await pool.query('UPDATE contact_messages SET is_read = TRUE WHERE id = $1', [id])
+    await ContactMessage.findByIdAndUpdate(id, { isRead: true })
     res.json({ success: true })
   } catch (err) {
     console.error('Update error:', err)
@@ -90,7 +76,7 @@ app.delete('/api/admin/messages/:id', async (req, res) => {
   }
   const { id } = req.params
   try {
-    await pool.query('DELETE FROM contact_messages WHERE id = $1', [id])
+    await ContactMessage.findByIdAndDelete(id)
     res.json({ success: true })
   } catch (err) {
     console.error('Delete error:', err)

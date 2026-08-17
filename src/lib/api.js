@@ -4,7 +4,8 @@ const ADMIN_EMAIL = 'baraka@admin.com'
 const ADMIN_PASSWORD = 'Baraka@123'
 const adminAuth = `${ADMIN_EMAIL}:${ADMIN_PASSWORD}`
 
-// ── Public ──────────────────────────────────────────────
+// ── Contact Messages ──────────────────────────────────────
+
 export async function submitContactMessage(data) {
   const res = await fetch(`${BASE}/messages`, {
     method: 'POST',
@@ -14,7 +15,46 @@ export async function submitContactMessage(data) {
   return res.json()
 }
 
-// ── Admin ────────────────────────────────────────────────
+// ── Auth ──────────────────────────────────────────────────
+
+export async function registerUser(name, email, password) {
+  const res = await fetch(`${BASE}/auth/register`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ name, email, password }),
+  })
+  return res.json()
+}
+
+export async function loginUser(email, password) {
+  const res = await fetch(`${BASE}/auth/login`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email, password }),
+  })
+  return res.json()
+}
+
+export async function upgradeUserToPremium(email) {
+  const res = await fetch(`${BASE}/auth/premium/${encodeURIComponent(email)}`, {
+    method: 'PATCH',
+  })
+  return res.json()
+}
+
+// ── Payments ──────────────────────────────────────────────
+
+export async function recordPayment(data) {
+  const res = await fetch(`${BASE}/payments`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data),
+  })
+  return res.json()
+}
+
+// ── Admin ─────────────────────────────────────────────────
+
 export async function adminLogin(email, password) {
   const res = await fetch(`${BASE}/admin/login`, {
     method: 'POST',

@@ -88,7 +88,7 @@ function About() {
                 <Code className="w-8 h-8 text-white" />
               </div>
               <div>
-                <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-1">Hey, I&apos;m Baraka! 👋</h3>
+                <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-1">Hey, I&apos;m Baraka! </h3>
                 <p className="text-red-500 font-medium text-sm">Full-Stack Dev · Game Dev · Security Engineer</p>
               </div>
             </div>

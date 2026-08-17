@@ -6,6 +6,7 @@ import {
   Crown, Star, Zap, Lock, Check
 } from 'lucide-react'
 import { useAuth } from '../contexts/AuthContext'
+import { recordPayment } from '../lib/api'
 
 const donationAmounts = [
   { amount: 500, label: 'Coffee', icon: Coffee, description: 'Buy me a coffee ☕', emoji: '☕' },
@@ -91,6 +92,16 @@ function PawaPayDonation() {
       const data = await response.json()
 
       if (data.status === 'PENDING' || data.status === 'SUCCESS' || data.status === 'ACCEPTED') {
+        await recordPayment({
+          amount: finalAmount,
+          currency: 'RWF',
+          payerPhone: phoneNumber,
+          recipientPhone: recipientNumber,
+          method: selectedMethod === 'mtn' ? 'MTN' : 'AIRTEL',
+          status: data.status,
+          reference: `donation-${Date.now()}`,
+          pawapayTransactionId: data.transactionId || null,
+        })
         upgradeToPremium()
         setStep('success')
       } else {

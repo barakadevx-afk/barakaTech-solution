@@ -1,4 +1,5 @@
-import { createContext, useContext, useState, useEffect } from 'react'
+import { createContext, useContext, useState, useEffect, useCallback } from 'react'
+import { registerUser, loginUser, upgradeUserToPremium } from '../lib/api'
 
 const AuthContext = createContext(null)
 
@@ -28,50 +29,52 @@ export function AuthProvider({ children }) {
     setIsLoading(false)
   }, [])
 
-  const login = (email, password) => {
-    const premiumEmails = JSON.parse(localStorage.getItem('portfolio_premium_emails') || '[]')
-    const mockUser = {
-      id: Date.now().toString(),
-      email,
-      name: email.split('@')[0].replace(/[^a-zA-Z]/g, ' ').trim() || email.split('@')[0],
-      role: 'user',
-      isPremium: premiumEmails.includes(email),
-      joinedAt: new Date().toISOString(),
+  const login = useCallback(async (email, password) => {
+    try {
+      const result = await loginUser(email, password)
+      if (result.success && result.user) {
+        setUser(result.user)
+        localStorage.setItem('portfolio_user', JSON.stringify(result.user))
+        setShowAuthModal(false)
+        return { success: true }
+      }
+      return { success: false, error: result.error || 'Invalid email or password' }
+    } catch {
+      return { success: false, error: 'Connection error — please try again' }
     }
-    setUser(mockUser)
-    localStorage.setItem('portfolio_user', JSON.stringify(mockUser))
-    setShowAuthModal(false)
-    return { success: true }
-  }
+  }, [])
 
-  const register = (name, email, password) => {
-    const premiumEmails = JSON.parse(localStorage.getItem('portfolio_premium_emails') || '[]')
-    const mockUser = {
-      id: Date.now().toString(),
-      email,
-      name,
-      role: 'user',
-      isPremium: premiumEmails.includes(email),
-      joinedAt: new Date().toISOString(),
+  const register = useCallback(async (name, email, password) => {
+    try {
+      const result = await registerUser(name, email, password)
+      if (result.success && result.user) {
+        setUser(result.user)
+        localStorage.setItem('portfolio_user', JSON.stringify(result.user))
+        setShowAuthModal(false)
+        return { success: true }
+      }
+      return { success: false, error: result.error || 'Registration failed' }
+    } catch {
+      return { success: false, error: 'Connection error — please try again' }
     }
-    setUser(mockUser)
-    localStorage.setItem('portfolio_user', JSON.stringify(mockUser))
-    setShowAuthModal(false)
-    return { success: true }
-  }
+  }, [])
 
-  const upgradeToPremium = () => {
-    if (user) {
-      const upgraded = { ...user, isPremium: true, premiumSince: new Date().toISOString() }
-      setUser(upgraded)
-      localStorage.setItem('portfolio_user', JSON.stringify(upgraded))
-      const premiumEmails = JSON.parse(localStorage.getItem('portfolio_premium_emails') || '[]')
-      if (!premiumEmails.includes(user.email)) {
-        premiumEmails.push(user.email)
-        localStorage.setItem('portfolio_premium_emails', JSON.stringify(premiumEmails))
+  const upgradeToPremium = useCallback(async () => {
+    if (user?.email) {
+      try {
+        const result = await upgradeUserToPremium(user.email)
+        if (result.success && result.user) {
+          setUser(result.user)
+          localStorage.setItem('portfolio_user', JSON.stringify(result.user))
+        }
+      } catch {
+        // fallback: mark locally
+        const upgraded = { ...user, isPremium: true, premiumSince: new Date().toISOString() }
+        setUser(upgraded)
+        localStorage.setItem('portfolio_user', JSON.stringify(upgraded))
       }
     }
-  }
+  }, [user])
 
   const continueAsGuest = () => {
     setIsGuest(true)

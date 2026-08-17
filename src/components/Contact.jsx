@@ -6,7 +6,7 @@ import { submitContactMessage } from '../lib/api'
 const contactInfo = [
   { icon: Mail, label: 'Email', value: 'barakadevx@gmail.com', href: 'mailto:barakadevx@gmail.com', color: 'bg-red-50 dark:bg-red-500/10 text-red-600 dark:text-red-400', hover: 'hover:bg-red-500' },
   { icon: Phone, label: 'Phone / WhatsApp', value: '+250 792 828 727', href: 'tel:+250792828727', color: 'bg-green-50 dark:bg-green-500/10 text-green-600 dark:text-green-400', hover: 'hover:bg-green-500' },
-  { icon: MapPin, label: 'Location', value: 'Rwanda 🌍 (Remote OK)', href: '#', color: 'bg-blue-50 dark:bg-blue-500/10 text-blue-600 dark:text-blue-400', hover: 'hover:bg-blue-500' },
+  { icon: MapPin, label: 'Location', value: 'Rwanda  (Remote OK)', href: '#', color: 'bg-blue-50 dark:bg-blue-500/10 text-blue-600 dark:text-blue-400', hover: 'hover:bg-blue-500' },
   { icon: Clock, label: 'Response Time', value: 'Within 24 hours', href: '#', color: 'bg-orange-50 dark:bg-orange-500/10 text-orange-600 dark:text-orange-400', hover: 'hover:bg-orange-500' },
 ]
 

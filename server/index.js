@@ -15,6 +15,11 @@ app.use(express.json())
 const ADMIN_EMAIL = 'baraka@admin.com'
 const ADMIN_PASSWORD = 'Baraka@123'
 
+const isAdminAuth = (req) => {
+  const auth = req.headers['x-admin-auth']
+  return auth === `${ADMIN_EMAIL}:${ADMIN_PASSWORD}`
+}
+
 // ── Contact Messages ──────────────────────────────────────
 
 app.post('/api/messages', async (req, res) => {
@@ -119,12 +124,24 @@ app.get('/api/payments', async (req, res) => {
 
 // ── Admin ─────────────────────────────────────────────────
 
-app.post('/api/admin/login', (req, res) => {
+app.post('/api/admin/login', async (req, res) => {
   const { email, password } = req.body
-  if (email === ADMIN_EMAIL && password === ADMIN_PASSWORD) {
-    res.json({ success: true })
-  } else {
-    res.status(401).json({ success: false, error: 'Invalid email or password' })
+  if (!email || !password) {
+    return res.status(400).json({ error: 'email and password are required' })
+  }
+  try {
+    const user = await User.findOne({ email: email.toLowerCase(), role: 'admin' })
+    if (!user) {
+      return res.status(401).json({ success: false, error: 'Invalid email or password' })
+    }
+    const valid = await user.comparePassword(password)
+    if (!valid) {
+      return res.status(401).json({ success: false, error: 'Invalid email or password' })
+    }
+    res.json({ success: true, user })
+  } catch (err) {
+    console.error('Admin login error:', err)
+    res.status(500).json({ error: 'Failed to login' })
   }
 })
 

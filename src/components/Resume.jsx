@@ -52,7 +52,7 @@ function Resume() {
   const skills = {
     'Frontend': ['React', 'JavaScript', 'TypeScript', 'HTML5', 'CSS3', 'Tailwind CSS', 'Framer Motion'],
     'Backend': ['Node.js', 'Python', 'Express', 'FastAPI', 'REST APIs'],
-    'Database': ['PostgreSQL', 'Supabase', 'MongoDB', 'Redis'],
+    'Database': ['PostgreSQL', 'MongoDB', 'Mongoose', 'Redis'],
     'AI/ML': ['TensorFlow', 'OpenAI API', 'LangChain', 'Computer Vision'],
     'DevOps': ['Git', 'Docker', 'Linux', 'CI/CD', 'Cloud Deployment'],
     'Security': ['Kali Linux', 'Tor Browser', 'Penetration Testing', 'Ethical Hacking'],

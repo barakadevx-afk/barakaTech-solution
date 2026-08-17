@@ -23,7 +23,7 @@ A modern, responsive portfolio website built with React, Tailwind CSS, and Frame
 - Tailwind CSS
 - Framer Motion
 - Lucide Icons
-- Supabase (Database & Auth)
+- MongoDB (Database via Mongoose)
 
 ## Getting Started
 
@@ -64,56 +64,37 @@ Edit the component files in `src/components/` to update:
 - Contact details
 - Colors and styling
 
-## Supabase Setup
+## MongoDB Setup
 
 ### 1. Environment Variables
 
 Create a `.env` file in the root:
 
 ```
-VITE_SUPABASE_URL=your_supabase_url
-VITE_SUPABASE_PUBLISHABLE_KEY=your_supabase_key
+MONGODB_URI=mongodb+srv://<username>:<password>@<cluster>.mongodb.net/barakadevx?retryWrites=true&w=majority
 ```
 
-### 2. Database Tables
+Get your connection string from [MongoDB Atlas](https://cloud.mongodb.com).
 
-Create these tables in your Supabase project:
+### 2. Database Collections
 
-**Contacts Table** (stores contact form submissions):
-```sql
-create table contacts (
-  id uuid default gen_random_uuid() primary key,
-  name text not null,
-  email text not null,
-  subject text not null,
-  message text not null,
-  created_at timestamp with time zone default timezone('utc'::text, now()) not null
-);
+MongoDB creates collections automatically. The app uses:
 
-alter table contacts enable row level security;
-
-CREATE POLICY "Allow anonymous inserts" ON contacts
-  FOR INSERT TO anon
-  WITH CHECK (true);
-```
+- **contactmessages** — Contact form submissions
+- **payments** — PawaPay donation records
+- **testimonials** — User testimonials
 
 ### 3. Usage
 
-The Contact form automatically saves to Supabase. You can view submissions in your Supabase dashboard or query them:
+The Express API connects to MongoDB on startup via Mongoose. All data flows through `server/index.js`:
 
-```javascript
-import { useSupabase } from './contexts/SupabaseContext'
+```bash
+# Start the API server (port 3001)
+npm run dev:api
 
-const { fetchData, insertData } = useSupabase()
-
-// Fetch all contacts
-const contacts = await fetchData('contacts')
-
-// Insert new contact
-await insertData('contacts', { name, email, subject, message })
+# Start both API + frontend
+npm run dev
 ```
-
-See `SUPABASE_SETUP.md` for more details.
 
 ## License
 

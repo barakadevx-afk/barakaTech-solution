@@ -12,14 +12,12 @@
     "deploy": "vercel --prod"
   },
   "dependencies": {
-    "@supabase/supabase-js": "^2.105.1",
     "concurrently": "^9.2.1",
     "cors": "^2.8.6",
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
     "framer-motion": "^11.0.0",
     "lucide-react": "^0.300.0",
-    "mongoose": "^9.9.2",
     "mongoose": "^8.16.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"

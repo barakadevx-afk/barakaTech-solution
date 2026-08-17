@@ -12,8 +12,8 @@ const app = express()
 app.use(cors())
 app.use(express.json())
 
-const ADMIN_EMAIL = 'baraka@admin.com'
-const ADMIN_PASSWORD = 'Baraka@123'
+const ADMIN_EMAIL = 'Baraka@admin.com'
+const ADMIN_PASSWORD = 'Admin@123'
 
 const isAdminAuth = (req) => {
   const auth = req.headers['x-admin-auth']

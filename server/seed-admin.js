@@ -4,8 +4,8 @@ import User from './models/User.js'
 
 await connectDB()
 
-const adminEmail = 'baraka@admin.com'
-const adminPassword = 'Baraka@123'
+const adminEmail = 'Baraka@admin.com'
+const adminPassword = 'Admin@123'
 
 try {
   const existing = await User.findOne({ email: adminEmail })

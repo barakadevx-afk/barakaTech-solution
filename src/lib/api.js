@@ -1,9 +1,5 @@
 const BASE = '/api'
 
-const ADMIN_EMAIL = 'baraka@admin.com'
-const ADMIN_PASSWORD = 'Baraka@123'
-const adminAuth = `${ADMIN_EMAIL}:${ADMIN_PASSWORD}`
-
 // ── Contact Messages ──────────────────────────────────────
 
 export async function submitContactMessage(data) {
@@ -64,23 +60,23 @@ export async function adminLogin(email, password) {
   return res.json()
 }
 
-export async function fetchAdminMessages() {
+export async function fetchAdminMessages(authHeader) {
   const res = await fetch(`${BASE}/admin/messages`, {
-    headers: { 'x-admin-auth': adminAuth },
+    headers: { 'x-admin-auth': authHeader },
   })
   return res.json()
 }
 
-export async function markMessageRead(id) {
+export async function markMessageRead(id, authHeader) {
   await fetch(`${BASE}/admin/messages/${id}/read`, {
     method: 'PATCH',
-    headers: { 'x-admin-auth': adminAuth },
+    headers: { 'x-admin-auth': authHeader },
   })
 }
 
-export async function deleteAdminMessage(id) {
+export async function deleteAdminMessage(id, authHeader) {
   await fetch(`${BASE}/admin/messages/${id}`, {
     method: 'DELETE',
-    headers: { 'x-admin-auth': adminAuth },
+    headers: { 'x-admin-auth': authHeader },
   })
 }

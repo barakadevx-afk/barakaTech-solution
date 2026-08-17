@@ -56,7 +56,7 @@ function Footer({ onNavigate }) {
             </button>
             <p className="text-sm leading-relaxed mb-5 text-gray-400">
               A developer who loves building cool stuff — full-stack apps, games, and secure systems. 
-              Based in Rwanda, working with the world. 🌍
+              Based in Rwanda, working with the world. 
             </p>
 
             {/* Socials */}
@@ -141,11 +141,6 @@ function Footer({ onNavigate }) {
         <div className="py-6 border-t border-gray-800 flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-2 text-xs text-gray-600">
             <Coffee className="w-3.5 h-3.5 text-orange-500" />
-            <span>Built with</span>
-            <Heart className="w-3 h-3 text-red-500 fill-red-500" />
-            <span>and lots of coffee by Baraka</span>
-          </div>
-
           <p className="text-xs text-gray-600">
             &copy; {new Date().getFullYear()} Baraka Tech Solutions. All rights reserved.
           </p>

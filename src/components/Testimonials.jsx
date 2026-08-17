@@ -1,50 +1,31 @@
 import { motion } from 'framer-motion'
 import { useInView } from 'framer-motion'
-import { useRef, useState } from 'react'
+import { useRef, useState, useEffect } from 'react'
 import { Quote, Star, ChevronLeft, ChevronRight } from 'lucide-react'
-
-const testimonials = [
-  {
-    name: 'Ishimwe Kevin',
-    role: 'Full stack Developer',
-    image: 'public/kevin.jpg',
-    content: 'Baraka delivered an exceptional full-stack solution that transformed our operations. His attention to security and performance is unmatched.',
-    rating: 5,
-    project: 'Enterprise SaaS Platform',
-  },
-  {
-    name: 'ishimwe jeanclaude',
-    role: 'Full stack Developer',
-    image: 'public/ish.jpg',
-    content: 'The AI behavior system Baraka implemented for our RPG was groundbreaking. He truly understands game mechanics and player psychology.',
-    rating: 5,
-    project: 'Fantasy RPG Game',
-  },
-  {
-    name: 'izere elias',
-    role: 'Advanced Information Security Engineer',
-    image: 'public/elias.png',
-    content: 'His penetration testing revealed vulnerabilities we never knew existed. Baraka\'s security audit saved us from potential disasters.',
-    rating: 5,
-    project: 'Security Audit',
-  },
-  {
-    name: 'Baraka DevX',
-    role: 'Game And Web Developer & Security Specialist',
-    image: 'public/profile.jpg',
-    content: 'Fast, efficient, and incredibly skilled. The learning platform he built handles 10,000+ concurrent users without breaking a sweat.',
-    rating: 5,
-    project: 'E-Learning Platform',
-  },
-]
+import { fetchTestimonials } from '../lib/api'
 
 function Testimonials() {
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, margin: "-100px" })
+  const [testimonials, setTestimonials] = useState([])
+  const [loading, setLoading] = useState(true)
   const [currentIndex, setCurrentIndex] = useState(0)
 
-  const next = () => setCurrentIndex((prev) => (prev + 1) % testimonials.length)
-  const prev = () => setCurrentIndex((prev) => (prev - 1 + testimonials.length) % testimonials.length)
+  useEffect(() => {
+    fetchTestimonials()
+      .then((data) => {
+        setTestimonials(Array.isArray(data) ? data : data?.testimonials ?? [])
+      })
+      .catch(() => setTestimonials([]))
+      .finally(() => setLoading(false))
+  }, [])
+
+  const count = testimonials.length
+
+  const next = () => setCurrentIndex((prev) => (prev + 1) % count)
+  const prev = () => setCurrentIndex((prev) => (prev - 1 + count) % count)
+
+  const current = testimonials[currentIndex] ?? null
 
   return (
     <section id="testimonials" className="py-20 md:py-32 bg-white dark:bg-dark-200" ref={ref}>
@@ -68,87 +49,99 @@ function Testimonials() {
           </p>
         </motion.div>
 
-        {/* Testimonial Carousel */}
+        {/* Loading / Empty / Carousel */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6, delay: 0.2 }}
           className="relative max-w-4xl mx-auto"
         >
-          {/* Main Card */}
-          <div className="relative p-8 md:p-12 rounded-2xl bg-gradient-to-br from-gray-50 to-gray-100 dark:from-dark-100 dark:to-dark-300 border border-gray-200 dark:border-gray-800">
-            <Quote className="absolute top-6 left-6 w-10 h-10 text-primary-500/20" />
-            
-            <div className="relative z-10">
-              {/* Stars */}
-              <div className="flex gap-1 mb-6">
-                {[...Array(testimonials[currentIndex].rating)].map((_, i) => (
-                  <Star key={i} className="w-5 h-5 fill-yellow-400 text-yellow-400" />
-                ))}
-              </div>
+          {loading ? (
+            <div className="text-center py-16 text-gray-500 dark:text-gray-400 text-lg">
+              Loading...
+            </div>
+          ) : count === 0 ? (
+            <div className="text-center py-16 text-gray-500 dark:text-gray-400 text-lg">
+              No testimonials yet.
+            </div>
+          ) : (
+            <>
+              {/* Main Card */}
+              <div className="relative p-8 md:p-12 rounded-2xl bg-gradient-to-br from-gray-50 to-gray-100 dark:from-dark-100 dark:to-dark-300 border border-gray-200 dark:border-gray-800">
+                <Quote className="absolute top-6 left-6 w-10 h-10 text-primary-500/20" />
 
-              {/* Content */}
-              <p className="text-xl md:text-2xl text-gray-700 dark:text-gray-300 mb-8 leading-relaxed">
-                &ldquo;{testimonials[currentIndex].content}&rdquo;
-              </p>
+                <div className="relative z-10">
+                  {/* Stars */}
+                  <div className="flex gap-1 mb-6">
+                    {[...Array(current.rating)].map((_, i) => (
+                      <Star key={i} className="w-5 h-5 fill-yellow-400 text-yellow-400" />
+                    ))}
+                  </div>
 
-              {/* Author */}
-              <div className="flex items-center gap-4">
-                <img
-                  src={testimonials[currentIndex].image}
-                  alt={testimonials[currentIndex].name}
-                  className="w-14 h-14 rounded-full object-cover border-2 border-primary-500"
-                />
-                <div>
-                  <p className="font-bold text-gray-900 dark:text-white">
-                    {testimonials[currentIndex].name}
+                  {/* Content */}
+                  <p className="text-xl md:text-2xl text-gray-700 dark:text-gray-300 mb-8 leading-relaxed">
+                    &ldquo;{current.content}&rdquo;
                   </p>
-                  <p className="text-sm text-gray-500 dark:text-gray-400">
-                    {testimonials[currentIndex].role}
-                  </p>
-                  <span className="inline-block mt-1 px-2 py-0.5 rounded bg-primary-100 dark:bg-primary-900/30 text-primary-600 dark:text-primary-400 text-xs">
-                    {testimonials[currentIndex].project}
-                  </span>
+
+                  {/* Author */}
+                  <div className="flex items-center gap-4">
+                    <img
+                      src={current.image}
+                      alt={current.name}
+                      className="w-14 h-14 rounded-full object-cover border-2 border-primary-500"
+                    />
+                    <div>
+                      <p className="font-bold text-gray-900 dark:text-white">
+                        {current.name}
+                      </p>
+                      <p className="text-sm text-gray-500 dark:text-gray-400">
+                        {current.role}
+                      </p>
+                      <span className="inline-block mt-1 px-2 py-0.5 rounded bg-primary-100 dark:bg-primary-900/30 text-primary-600 dark:text-primary-400 text-xs">
+                        {current.project}
+                      </span>
+                    </div>
+                  </div>
                 </div>
               </div>
-            </div>
-          </div>
 
-          {/* Navigation */}
-          <div className="flex items-center justify-center gap-4 mt-8">
-            <motion.button
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-              onClick={prev}
-              className="p-3 rounded-full bg-gray-100 dark:bg-dark-300 text-gray-600 dark:text-gray-400 hover:bg-primary-500 hover:text-white transition-colors"
-            >
-              <ChevronLeft className="w-5 h-5" />
-            </motion.button>
+              {/* Navigation */}
+              <div className="flex items-center justify-center gap-4 mt-8">
+                <motion.button
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.9 }}
+                  onClick={prev}
+                  className="p-3 rounded-full bg-gray-100 dark:bg-dark-300 text-gray-600 dark:text-gray-400 hover:bg-primary-500 hover:text-white transition-colors"
+                >
+                  <ChevronLeft className="w-5 h-5" />
+                </motion.button>
 
-            {/* Dots */}
-            <div className="flex gap-2">
-              {testimonials.map((_, index) => (
-                <button
-                  key={index}
-                  onClick={() => setCurrentIndex(index)}
-                  className={`w-2.5 h-2.5 rounded-full transition-colors ${
-                    index === currentIndex
-                      ? 'bg-primary-500'
-                      : 'bg-gray-300 dark:bg-gray-600'
-                  }`}
-                />
-              ))}
-            </div>
+                {/* Dots */}
+                <div className="flex gap-2">
+                  {testimonials.map((_, index) => (
+                    <button
+                      key={index}
+                      onClick={() => setCurrentIndex(index)}
+                      className={`w-2.5 h-2.5 rounded-full transition-colors ${
+                        index === currentIndex
+                          ? 'bg-primary-500'
+                          : 'bg-gray-300 dark:bg-gray-600'
+                      }`}
+                    />
+                  ))}
+                </div>
 
-            <motion.button
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-              onClick={next}
-              className="p-3 rounded-full bg-gray-100 dark:bg-dark-300 text-gray-600 dark:text-gray-400 hover:bg-primary-500 hover:text-white transition-colors"
-            >
-              <ChevronRight className="w-5 h-5" />
-            </motion.button>
-          </div>
+                <motion.button
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.9 }}
+                  onClick={next}
+                  className="p-3 rounded-full bg-gray-100 dark:bg-dark-300 text-gray-600 dark:text-gray-400 hover:bg-primary-500 hover:text-white transition-colors"
+                >
+                  <ChevronRight className="w-5 h-5" />
+                </motion.button>
+              </div>
+            </>
+          )}
         </motion.div>
 
         {/* Stats */}

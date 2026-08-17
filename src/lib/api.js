@@ -80,3 +80,104 @@ export async function deleteAdminMessage(id, authHeader) {
     headers: { 'x-admin-auth': authHeader },
   })
 }
+
+// ── Blog ──────────────────────────────────────────────────
+
+export async function fetchBlogPosts() {
+  const res = await fetch(`${BASE}/blog`)
+  return res.json()
+}
+
+export async function fetchAllBlogPosts(authHeader) {
+  const res = await fetch(`${BASE}/blog/all`, {
+    headers: { 'x-admin-auth': authHeader },
+  })
+  return res.json()
+}
+
+export async function createBlogPost(data, authHeader) {
+  const res = await fetch(`${BASE}/blog`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'x-admin-auth': authHeader },
+    body: JSON.stringify(data),
+  })
+  return res.json()
+}
+
+export async function updateBlogPost(id, data, authHeader) {
+  const res = await fetch(`${BASE}/blog/${id}`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json', 'x-admin-auth': authHeader },
+    body: JSON.stringify(data),
+  })
+  return res.json()
+}
+
+export async function deleteBlogPost(id, authHeader) {
+  await fetch(`${BASE}/blog/${id}`, {
+    method: 'DELETE',
+    headers: { 'x-admin-auth': authHeader },
+  })
+}
+
+// ── Projects ──────────────────────────────────────────────
+
+export async function fetchProjects() {
+  const res = await fetch(`${BASE}/projects`)
+  return res.json()
+}
+
+export async function createProject(data, authHeader) {
+  const res = await fetch(`${BASE}/projects`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'x-admin-auth': authHeader },
+    body: JSON.stringify(data),
+  })
+  return res.json()
+}
+
+export async function updateProject(id, data, authHeader) {
+  const res = await fetch(`${BASE}/projects/${id}`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json', 'x-admin-auth': authHeader },
+    body: JSON.stringify(data),
+  })
+  return res.json()
+}
+
+export async function deleteProject(id, authHeader) {
+  await fetch(`${BASE}/projects/${id}`, {
+    method: 'DELETE',
+    headers: { 'x-admin-auth': authHeader },
+  })
+}
+
+// ── Testimonials ──────────────────────────────────────────
+
+export async function fetchTestimonials() {
+  const res = await fetch(`${BASE}/testimonials`)
+  return res.json()
+}
+
+export async function submitTestimonial(data) {
+  const res = await fetch(`${BASE}/testimonials`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data),
+  })
+  return res.json()
+}
+
+export async function approveTestimonial(id, authHeader) {
+  await fetch(`${BASE}/testimonials/${id}/approve`, {
+    method: 'PATCH',
+    headers: { 'x-admin-auth': authHeader },
+  })
+}
+
+export async function deleteTestimonial(id, authHeader) {
+  await fetch(`${BASE}/testimonials/${id}`, {
+    method: 'DELETE',
+    headers: { 'x-admin-auth': authHeader },
+  })
+}

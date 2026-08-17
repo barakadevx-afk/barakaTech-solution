@@ -17,8 +17,8 @@ const experiences = [
     title: 'Game Developer',
     company: 'Indie Studio Games',
     period: '2020 - 2022',
-    description: 'Developed 2D/3D games using Unity and Unreal Engine, implemented AI systems and multiplayer functionality.',
-    achievements: ['Shipped 3 titles', 'Implemented AI behavior trees', 'Optimized rendering pipeline'],
+    description: 'Developed 2D/3D games using Unity and Unreal Engine, built game logic systems and multiplayer functionality.',
+    achievements: ['Shipped 3 titles', 'Built behavior tree systems', 'Optimized rendering pipeline'],
   },
   {
     type: 'work',
@@ -34,7 +34,7 @@ const experiences = [
     company: 'University of Technology',
     period: '2015 - 2019',
     description: 'Focus on Software Engineering, Cybersecurity, and Game Development. Graduated with First Class Honors.',
-    achievements: ['Dean\'s List all semesters', 'Research in AI/ML', 'Game Dev Club President'],
+    achievements: ['Dean\'s List all semesters',         'Game Dev Club President'],
   },
 ]
 

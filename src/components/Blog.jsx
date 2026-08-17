@@ -1,75 +1,7 @@
-import { useRef } from 'react'
+import { useRef, useState, useEffect } from 'react'
 import { motion, useInView } from 'framer-motion'
 import { BookOpen, Clock, ArrowRight, Tag, Calendar, TrendingUp } from 'lucide-react'
-
-const articles = [
-  {
-    title: 'Building Scalable React Apps with TypeScript and Clean Architecture',
-    excerpt: 'How I structure large React codebases for maximum maintainability, with real patterns from production apps. Covering folder structure, dependency injection, and state management strategies.',
-    image: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=800&h=400&fit=crop',
-    category: 'Development',
-    readTime: '8 min read',
-    date: 'Dec 2024',
-    tags: ['React', 'TypeScript', 'Architecture'],
-    trending: true,
-    color: 'from-blue-500 to-indigo-600',
-  },
-  {
-    title: 'Penetration Testing 101: A Developer\'s Guide to Ethical Hacking',
-    excerpt: 'Understanding how attackers think helps you build more secure systems. Walk through common vulnerabilities, tools, and methodologies every developer should know about.',
-    image: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=800&h=400&fit=crop',
-    category: 'Security',
-    readTime: '12 min read',
-    date: 'Nov 2024',
-    tags: ['Cybersecurity', 'Ethical Hacking', 'DevSec'],
-    trending: false,
-    color: 'from-green-500 to-emerald-600',
-  },
-  {
-    title: 'Why I Switched from REST to GraphQL (and When NOT To)',
-    excerpt: 'After running both architectures in production, here\'s an honest breakdown of tradeoffs, performance benchmarks, and the scenarios where each approach truly shines.',
-    image: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=800&h=400&fit=crop',
-    category: 'Backend',
-    readTime: '6 min read',
-    date: 'Oct 2024',
-    tags: ['GraphQL', 'REST', 'API Design'],
-    trending: true,
-    color: 'from-pink-500 to-rose-600',
-  },
-  {
-    title: 'Game Dev Chronicles: Building AI NPCs That Actually Feel Alive',
-    excerpt: 'Deep dive into behavior trees, finite state machines, and the Unity AI tools I used to create NPCs that react dynamically to player actions — without being annoying.',
-    image: 'https://images.unsplash.com/photo-1493711662062-fa541adb3fc8?w=800&h=400&fit=crop',
-    category: 'Game Dev',
-    readTime: '10 min read',
-    date: 'Sep 2024',
-    tags: ['Unity', 'AI', 'Game Dev'],
-    trending: false,
-    color: 'from-purple-500 to-pink-600',
-  },
-  {
-    title: 'Docker & Kubernetes: From Zero to Production-Ready in a Weekend',
-    excerpt: 'The practical guide nobody wrote — containerizing a Node.js app, setting up CI/CD pipelines, and deploying to a Kubernetes cluster without losing your mind.',
-    image: 'https://images.unsplash.com/photo-1618401471353-b98afee0b2eb?w=800&h=400&fit=crop',
-    category: 'DevOps',
-    readTime: '15 min read',
-    date: 'Aug 2024',
-    tags: ['Docker', 'Kubernetes', 'DevOps'],
-    trending: false,
-    color: 'from-blue-600 to-cyan-600',
-  },
-  {
-    title: 'My Journey: From High School Student to Full-Stack Dev in 1 Year',
-    excerpt: 'The unfiltered story of how I taught myself to code, built 50+ projects, and landed my first clients while still in secondary school. What worked, what didn\'t, and lessons learned.',
-    image: 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=800&h=400&fit=crop',
-    category: 'Journey',
-    readTime: '7 min read',
-    date: 'Jul 2024',
-    tags: ['Career', 'Learning', 'Story'],
-    trending: true,
-    color: 'from-orange-500 to-red-600',
-  },
-]
+import { fetchBlogPosts } from '../lib/api'
 
 const catColors = {
   Development: 'bg-blue-50 text-blue-700 dark:bg-blue-500/10 dark:text-blue-400',
@@ -80,9 +12,61 @@ const catColors = {
   Journey: 'bg-orange-50 text-orange-700 dark:bg-orange-500/10 dark:text-orange-400',
 }
 
+function formatDate(dateStr) {
+  if (!dateStr) return ''
+  const d = new Date(dateStr)
+  return d.toLocaleDateString('en-US', { month: 'short', year: 'numeric' })
+}
+
 function Blog() {
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, margin: '-80px' })
+
+  const [articles, setArticles] = useState([])
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    fetchBlogPosts()
+      .then((res) => {
+        const posts = (res.posts || []).map((p) => ({
+          ...p,
+          date: formatDate(p.createdAt),
+        }))
+        setArticles(posts)
+      })
+      .catch(() => setArticles([]))
+      .finally(() => setLoading(false))
+  }, [])
+
+  if (loading) {
+    return (
+      <section id="blog" className="section-padding bg-white dark:bg-dark-200">
+        <div className="max-w-7xl mx-auto container-padding text-center py-20">
+          <p className="text-gray-500 dark:text-gray-400 text-lg">Loading...</p>
+        </div>
+      </section>
+    )
+  }
+
+  if (articles.length === 0) {
+    return (
+      <section id="blog" className="section-padding bg-white dark:bg-dark-200">
+        <div className="max-w-7xl mx-auto container-padding text-center py-20">
+          <span className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-red-50 dark:bg-red-500/10 text-red-600 dark:text-red-400 text-sm font-medium mb-4 border border-red-100 dark:border-red-500/20">
+            <BookOpen className="w-3.5 h-3.5" />
+            Blog & Articles
+          </span>
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 text-gray-900 dark:text-white">
+            Thoughts &{' '}
+            <span className="text-gradient">Insights</span>
+          </h2>
+          <p className="max-w-2xl mx-auto text-gray-600 dark:text-gray-400 text-lg">
+            No articles yet.
+          </p>
+        </div>
+      </section>
+    )
+  }
 
   const featured = articles[0]
   const rest = articles.slice(1)

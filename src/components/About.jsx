@@ -15,8 +15,8 @@ const specializations = [
   {
     icon: Gamepad2,
     title: 'Game Development',
-    description: '2D/3D game development with physics engines, AI-driven NPCs, multiplayer systems, and WebGL-powered experiences.',
-    skills: ['Unity', 'Unreal Engine', 'WebGL', 'C#', 'AI Logic'],
+    description: '2D/3D game development with physics engines, smart NPCs, multiplayer systems, and WebGL-powered experiences.',
+    skills: ['Unity', 'Unreal Engine', 'WebGL', 'C#', 'Game Logic'],
     color: 'from-purple-500 to-pink-600',
     bg: 'bg-purple-50 dark:bg-purple-500/10',
     iconColor: 'text-purple-500',
@@ -65,12 +65,12 @@ function About() {
             About Me
           </span>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 text-gray-900 dark:text-white">
-            Architecting{' '}
-            <span className="text-gradient">Intelligent Systems</span>
+            Building{' '}
+            <span className="text-gradient">Real Products</span>
           </h2>
           <p className="max-w-3xl mx-auto text-gray-600 dark:text-gray-400 text-lg leading-relaxed">
-            I operate at the intersection of software engineering, interactive entertainment, and security — 
-            building solutions that are not only functional, but resilient, optimized, and future-ready.
+            I build things that work — web apps, games, and secure systems. Everything I ship is built 
+            with performance, security, and real users in mind.
           </p>
         </motion.div>
 
@@ -99,8 +99,8 @@ function About() {
                 me to think at every layer of a system.
               </p>
               <p>
-                What drives me? The belief that technology can solve real problems. Whether it&apos;s an AI-powered learning platform, 
-                a multiplayer game with intelligent NPCs, or a security audit that hardens a business — I approach every project 
+                What drives me? The belief that technology can solve real problems. Whether it&apos;s a learning platform, 
+                a multiplayer game, or a security audit that hardens a business — I approach every project 
                 with the same intensity and care.
               </p>
               <p>

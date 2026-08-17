@@ -24,10 +24,10 @@ function Resume() {
       title: 'Full-Stack Developer',
       company: 'Baraka Tech Solution',
       period: '2023 - Present',
-      description: 'Building AI-powered applications, web platforms, and mobile solutions. Managing end-to-end development from concept to deployment.',
+      description: 'Building web platforms, mobile solutions, and games. Managing end-to-end development from concept to deployment.',
       achievements: [
         'Developed 50+ projects using React, Node.js, and Python',
-        'Implemented AI/ML solutions for automation',
+        'Built automation scripts and developer tools',
         'Built secure payment integration systems',
         'Created custom game engines and RPG systems'
       ]
@@ -43,7 +43,7 @@ function Resume() {
       achievements: [
         'Self-taught full-stack development',
         'Completed 50+ coding projects',
-        'Built AI-powered applications',
+        'Built custom web applications',
         'Developed cybersecurity expertise'
       ]
     },
@@ -53,14 +53,14 @@ function Resume() {
     'Frontend': ['React', 'JavaScript', 'TypeScript', 'HTML5', 'CSS3', 'Tailwind CSS', 'Framer Motion'],
     'Backend': ['Node.js', 'Python', 'Express', 'FastAPI', 'REST APIs'],
     'Database': ['PostgreSQL', 'MongoDB', 'Mongoose', 'Redis'],
-    'AI/ML': ['TensorFlow', 'OpenAI API', 'LangChain', 'Computer Vision'],
+    'Tools': ['Docker', 'Linux', 'Git', 'CI/CD', 'Cloud Deployment'],
     'DevOps': ['Git', 'Docker', 'Linux', 'CI/CD', 'Cloud Deployment'],
     'Security': ['Kali Linux', 'Tor Browser', 'Penetration Testing', 'Ethical Hacking'],
-    'Game Dev': ['Unity', 'Unreal Engine', 'C#', 'C++', 'Game AI'],
+    'Game Dev': ['Unity', 'Unreal Engine', 'C#', 'C++', 'Behavior Trees'],
   }
 
   const certifications = [
-    { name: 'AI & Machine Learning', issuer: 'Self-Taught', year: '2024' },
+    { name: 'Full-Stack Development', issuer: 'Portfolio Projects', year: '2023-2024' },
     { name: 'Cybersecurity Fundamentals', issuer: 'Self-Taught', year: '2024' },
     { name: 'Full-Stack Development', issuer: 'Portfolio Projects', year: '2023-2024' },
     { name: 'Game Development', issuer: 'Unity/Unreal Projects', year: '2024' },
@@ -89,7 +89,7 @@ function Resume() {
             <span className="text-gradient">Resume</span>
           </h2>
           <p className="text-gray-600 dark:text-gray-400 mb-6">
-            Full-Stack Developer | AI Engineer | Cybersecurity Expert
+            Full-Stack Developer | Cybersecurity Expert
           </p>
           <motion.a
             href="/resume.html"
@@ -115,7 +115,7 @@ function Resume() {
           <div className="bg-gradient-to-r from-primary-500 to-purple-600 p-8 text-white">
             <h1 className="text-3xl md:text-4xl font-bold mb-2">Baraka</h1>
             <p className="text-white/90 text-lg mb-4">
-              Full-Stack Developer | AI Engineer | Game Developer | Cybersecurity Expert
+              Full-Stack Developer | Game Developer | Cybersecurity Expert
             </p>
             <div className="flex flex-wrap gap-4 text-sm text-white/80">
               <a href={`mailto:${contactInfo.email}`} className="flex items-center gap-1 hover:text-white">
@@ -149,10 +149,9 @@ function Resume() {
                 Professional Summary
               </h3>
               <p className="text-gray-600 dark:text-gray-400">
-                Passionate full-stack developer and AI engineer with expertise in building intelligent systems, 
-                web applications, and games. Self-taught developer with a strong foundation in cybersecurity 
-                and a portfolio of 50+ projects. Currently completing secondary education (2023-2027) while 
-                working on innovative tech solutions.
+                Full-stack developer with expertise in building web applications, games, and secure systems. 
+                Self-taught developer with a strong foundation in cybersecurity and a portfolio of 50+ projects. 
+                Currently completing secondary education (2023-2027) while shipping production apps for clients globally.
               </p>
             </div>
 

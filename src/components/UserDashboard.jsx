@@ -26,7 +26,7 @@ const freePerks = [
 
 const downloads = [
   { name: 'E-Commerce Platform', type: 'React + Node.js', date: '2024-01-15', size: '2.4 MB', locked: false },
-  { name: 'AI Image Generator', type: 'Python + FastAPI', date: '2024-01-10', size: '1.8 MB', locked: false },
+  { name: 'Image Editor Tool', type: 'Python + FastAPI', date: '2024-01-10', size: '1.8 MB', locked: false },
   { name: 'Real-Time Chat App', type: 'Socket.io + React', date: '2024-02-01', size: '3.1 MB', locked: true },
   { name: 'GameFi NFT Marketplace', type: 'Solidity + Next.js', date: '2024-02-10', size: '4.2 MB', locked: true },
 ]

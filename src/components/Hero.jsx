@@ -3,7 +3,7 @@ import { motion, useMotionValue, useSpring, AnimatePresence } from 'framer-motio
 import { Github, Linkedin, Twitter, Download, Sparkles, Terminal, Zap, Code2, User, ArrowRight, Play, Globe, Shield, Cpu, Layers } from 'lucide-react'
 import { useNavigate } from '../contexts/useNavigate'
 
-const roles = ['Full-Stack Developer', 'Game Developer', 'Security Engineer', 'AI Enthusiast', 'Problem Solver']
+const roles = ['Full-Stack Developer', 'Game Developer', 'Security Engineer', 'Problem Solver']
 
 const techOrbit = [
   { label: 'React', color: '#61DAFB', icon: '⚛', r: 130, speed: 18, startAngle: 0 },
@@ -23,7 +23,7 @@ const codeLines = [
   { text: "const baraka = new Developer({", color: "text-purple-400" },
   { text: "  name: 'Baraka',", color: "text-red-400", indent: true },
   { text: "  location: '🇷🇼 Rwanda',", color: "text-green-400", indent: true },
-  { text: "  stack: ['React','Node','AI'],", color: "text-blue-400", indent: true },
+  { text: "  stack: ['React','Node','TS'],", color: "text-blue-400", indent: true },
   { text: "  passion: 'Building the future',", color: "text-yellow-400", indent: true },
   { text: "  available: true ✓", color: "text-emerald-400", indent: true },
   { text: "});", color: "text-purple-400" },
@@ -385,7 +385,7 @@ function ProfileOrbit() {
           className="absolute -top-3 -left-3 flex items-center gap-1.5 px-2.5 py-1.5 bg-gradient-to-r from-red-500 to-rose-600 rounded-full shadow-lg"
         >
           <Sparkles className="w-3 h-3 text-white" />
-          <span className="text-xs font-bold text-white">5+ yrs exp</span>
+          <span className="text-xs font-bold text-white">Since 2023</span>
         </motion.div>
       </motion.div>
     </div>

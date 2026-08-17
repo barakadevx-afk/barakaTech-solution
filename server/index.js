@@ -5,6 +5,9 @@ import connectDB from './mongodb.js'
 import ContactMessage from './models/ContactMessage.js'
 import User from './models/User.js'
 import Payment from './models/Payment.js'
+import Blog from './models/Blog.js'
+import Project from './models/Project.js'
+import Testimonial from './models/Testimonial.js'
 
 await connectDB()
 
@@ -184,6 +187,154 @@ app.delete('/api/admin/messages/:id', async (req, res) => {
   } catch (err) {
     console.error('Delete error:', err)
     res.status(500).json({ error: 'Failed to delete message' })
+  }
+})
+
+// ── Blog ───────────────────────────────────────────────────
+
+app.get('/api/blog', async (req, res) => {
+  try {
+    const posts = await Blog.find({ published: true }).sort({ createdAt: -1 }).lean()
+    res.json({ posts })
+  } catch (err) {
+    console.error('Blog fetch error:', err)
+    res.status(500).json({ error: 'Failed to fetch blog posts' })
+  }
+})
+
+app.get('/api/blog/all', async (req, res) => {
+  if (!isAdminAuth(req)) return res.status(403).json({ error: 'Forbidden' })
+  try {
+    const posts = await Blog.find().sort({ createdAt: -1 }).lean()
+    res.json({ posts })
+  } catch (err) {
+    console.error('Blog fetch all error:', err)
+    res.status(500).json({ error: 'Failed to fetch blog posts' })
+  }
+})
+
+app.post('/api/blog', async (req, res) => {
+  if (!isAdminAuth(req)) return res.status(403).json({ error: 'Forbidden' })
+  try {
+    const doc = await Blog.create(req.body)
+    res.status(201).json({ success: true, post: doc })
+  } catch (err) {
+    console.error('Blog create error:', err)
+    res.status(500).json({ error: 'Failed to create blog post' })
+  }
+})
+
+app.put('/api/blog/:id', async (req, res) => {
+  if (!isAdminAuth(req)) return res.status(403).json({ error: 'Forbidden' })
+  try {
+    const post = await Blog.findByIdAndUpdate(req.params.id, req.body, { new: true })
+    if (!post) return res.status(404).json({ error: 'Post not found' })
+    res.json({ success: true, post })
+  } catch (err) {
+    console.error('Blog update error:', err)
+    res.status(500).json({ error: 'Failed to update blog post' })
+  }
+})
+
+app.delete('/api/blog/:id', async (req, res) => {
+  if (!isAdminAuth(req)) return res.status(403).json({ error: 'Forbidden' })
+  try {
+    await Blog.findByIdAndDelete(req.params.id)
+    res.json({ success: true })
+  } catch (err) {
+    console.error('Blog delete error:', err)
+    res.status(500).json({ error: 'Failed to delete blog post' })
+  }
+})
+
+// ── Projects ───────────────────────────────────────────────
+
+app.get('/api/projects', async (req, res) => {
+  try {
+    const projects = await Project.find().sort({ createdAt: -1 }).lean()
+    res.json({ projects })
+  } catch (err) {
+    console.error('Projects fetch error:', err)
+    res.status(500).json({ error: 'Failed to fetch projects' })
+  }
+})
+
+app.post('/api/projects', async (req, res) => {
+  if (!isAdminAuth(req)) return res.status(403).json({ error: 'Forbidden' })
+  try {
+    const doc = await Project.create(req.body)
+    res.status(201).json({ success: true, project: doc })
+  } catch (err) {
+    console.error('Project create error:', err)
+    res.status(500).json({ error: 'Failed to create project' })
+  }
+})
+
+app.put('/api/projects/:id', async (req, res) => {
+  if (!isAdminAuth(req)) return res.status(403).json({ error: 'Forbidden' })
+  try {
+    const project = await Project.findByIdAndUpdate(req.params.id, req.body, { new: true })
+    if (!project) return res.status(404).json({ error: 'Project not found' })
+    res.json({ success: true, project })
+  } catch (err) {
+    console.error('Project update error:', err)
+    res.status(500).json({ error: 'Failed to update project' })
+  }
+})
+
+app.delete('/api/projects/:id', async (req, res) => {
+  if (!isAdminAuth(req)) return res.status(403).json({ error: 'Forbidden' })
+  try {
+    await Project.findByIdAndDelete(req.params.id)
+    res.json({ success: true })
+  } catch (err) {
+    console.error('Project delete error:', err)
+    res.status(500).json({ error: 'Failed to delete project' })
+  }
+})
+
+// ── Testimonials ───────────────────────────────────────────
+
+app.get('/api/testimonials', async (req, res) => {
+  try {
+    const testimonials = await Testimonial.find({ approved: true }).lean()
+    res.json({ testimonials })
+  } catch (err) {
+    console.error('Testimonials fetch error:', err)
+    res.status(500).json({ error: 'Failed to fetch testimonials' })
+  }
+})
+
+app.post('/api/testimonials', async (req, res) => {
+  try {
+    const doc = await Testimonial.create({ ...req.body, approved: false })
+    res.status(201).json({ success: true, testimonial: doc })
+  } catch (err) {
+    console.error('Testimonial create error:', err)
+    res.status(500).json({ error: 'Failed to submit testimonial' })
+  }
+})
+
+app.patch('/api/testimonials/:id/approve', async (req, res) => {
+  if (!isAdminAuth(req)) return res.status(403).json({ error: 'Forbidden' })
+  try {
+    const testimonial = await Testimonial.findByIdAndUpdate(req.params.id, { approved: true }, { new: true })
+    if (!testimonial) return res.status(404).json({ error: 'Testimonial not found' })
+    res.json({ success: true, testimonial })
+  } catch (err) {
+    console.error('Testimonial approve error:', err)
+    res.status(500).json({ error: 'Failed to approve testimonial' })
+  }
+})
+
+app.delete('/api/testimonials/:id', async (req, res) => {
+  if (!isAdminAuth(req)) return res.status(403).json({ error: 'Forbidden' })
+  try {
+    await Testimonial.findByIdAndDelete(req.params.id)
+    res.json({ success: true })
+  } catch (err) {
+    console.error('Testimonial delete error:', err)
+    res.status(500).json({ error: 'Failed to delete testimonial' })
   }
 })
 

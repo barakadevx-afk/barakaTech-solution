@@ -24,8 +24,8 @@ const services = [
   {
     icon: Gamepad2,
     title: 'Game Development',
-    description: 'Immersive 2D/3D games with physics engines, AI systems, and polished multiplayer experiences.',
-    features: ['Unity & Unreal Engine', 'WebGL browser games', 'AI NPC behavior systems', 'Multiplayer networking', 'Mobile game deployment'],
+    description: 'Immersive 2D/3D games with physics engines, smart NPC logic, and polished multiplayer experiences.',
+    features: ['Unity & Unreal Engine', 'WebGL browser games', 'NPC behavior systems', 'Multiplayer networking', 'Mobile game deployment'],
     color: 'from-purple-500 to-pink-600',
     bg: 'bg-purple-50 dark:bg-purple-500/10',
     popular: true,
